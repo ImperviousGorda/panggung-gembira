@@ -1,0 +1,28 @@
+{
+  "entities": {
+    "reviews": {
+      "title": "Reviews and Suggestions",
+      "description": "User reviews and suggestions for Panggung Gembira",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "rating": { "type": "number" },
+        "text": { "type": "string" },
+        "type": { "type": "string", "enum": ["ulasan", "saran"] },
+        "time": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["name", "role", "rating", "text", "type"]
+    }
+  },
+  "securityRules": {
+    "reviews": {
+      "read": "true",
+      "create": "request.resource.data.name is string && request.resource.data.text is string",
+      "update": "false",
+      "delete": "true"
+    }
+  }
+}

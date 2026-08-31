@@ -1,0 +1,6 @@
+{
+  "name": "Panggung Gembira 6101 Gontor Kampus 2",
+  "description": "Sebuah acara pagelaran seni yang dilaksanakan oleh Siswa Akhir KMI 6101 Gontor 2.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

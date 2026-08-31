@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Amagro';
+  src: url('./assets/font/AmagroBold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-cinzel: "Cinzel", serif;
+  --font-amagro: "Amagro", serif;
+}
+
+body {
+  background: radial-gradient(circle at center, #0f0b05 0%, #010101 100%);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+.gold-glow {
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4), 0 0 16px rgba(212, 175, 55, 0.1);
+}
+
+.gold-border-glow {
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15), inset 0 0 15px rgba(212, 175, 55, 0.05);
+  border-color: rgba(212, 175, 55, 0.25) !important;
+}
+
+.gold-outer-glow {
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.22);
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-outer-glow:hover {
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.35);
+  border-color: rgba(212, 175, 55, 0.75) !important;
+  transform: translateY(-2px);
+}
+
+.gold-card-glow {
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-card-glow:hover {
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.45);
+  border-color: rgba(212, 175, 55, 0.9) !important;
+  transform: translateY(-4px) scale(1.03);
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes floatFrame {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float {
+  animation: floatFrame 5s ease-in-out infinite;
+}
+
+@keyframes autoScalePulse {
+  0%, 45% {
+    transform: scale(1);
+  }
+  55%, 75% {
+    transform: scale(1.05);
+  }
+  85%, 100% {
+    transform: scale(1);
+  }
+}
+
+.animate-auto-scale {
+  animation: autoScalePulse 8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+@keyframes goldenGlowBreathe {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(1.2);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.35);
+  }
+}
+
+.animate-glow-breathe {
+  animation: goldenGlowBreathe 6s ease-in-out infinite;
+}
+
+@keyframes innerGlowBreathe {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+.animate-inner-glow-breathe {
+  animation: innerGlowBreathe 5s ease-in-out infinite;
+}
+
+@keyframes sheenSweep {
+  0%, 45% { left: -150%; }
+  55%, 75% { left: 150%; }
+  100% { left: 150%; }
+}
+
+.animate-sheen-sweep {
+  width: 150%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  animation: sheenSweep 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes spinSlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinReverseSlow {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 35s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spinReverseSlow 45s linear infinite;
+}
+
