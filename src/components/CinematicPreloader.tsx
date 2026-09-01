@@ -3,7 +3,13 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import SplitType from 'split-type';
-import shieldLogoImg from '../assets/images/logo_1_2.png';
+import shieldLogoImg from '../assets/images/logo_preloader.webp';
+
+// Eagerly pre-decode logo in memory as soon as module loads
+if (typeof window !== 'undefined') {
+  const preloaderPreloadImg = new Image();
+  preloaderPreloadImg.src = shieldLogoImg;
+}
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -243,8 +249,11 @@ export default function CinematicPreloader({ onAnimationComplete }: CinematicPre
           <img
             src={shieldLogoImg}
             alt="Panggung Gembira Logo"
-            loading="lazy"
-            decoding="async"
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            width={144}
+            height={144}
             className="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.45)]"
           />
         </div>

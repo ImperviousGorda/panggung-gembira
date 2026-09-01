@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FormEvent, useRef } from 'react';
-import { Calendar, Clock, MapPin, Play, X, Send, Film, Sparkles, ChevronLeft, ChevronRight, Volume2, Mic, Drama, Music, Languages, Heart, MessageCircle, Bookmark, Share2, Star, ThumbsUp, Users, MessageSquare, User, GraduationCap, ChevronDown, Feather, Trash2 } from 'lucide-react';
+import { Calendar, Clock, MapPin, Play, X, Send, Film, Sparkles, ChevronLeft, ChevronRight, Volume2, Mic, Drama, Music, Languages, Heart, MessageCircle, Bookmark, Share2, Star, ThumbsUp, Users, MessageSquare, User, GraduationCap, ChevronDown, Feather, Trash2, ShieldCheck, Pin } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { collection, onSnapshot, addDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { db } from './firebase';
@@ -10,6 +10,7 @@ import CountdownTimer from './components/CountdownTimer';
 import CinematicPreloader from './components/CinematicPreloader';
 import CustomCursor from './components/CustomCursor';
 import { FlyerSection } from './components/FlyerSection';
+import Footer from './components/Footer';
 import { ContactFormData, ShowBabak } from './types';
 
 // Import Logo Shard Images for Philosophy Section
@@ -104,9 +105,23 @@ interface ReviewItem {
   type: 'ulasan' | 'saran';
   text: string;
   avatar?: string;
+  isPermanent?: boolean;
 }
 
-const initialReviews: ReviewItem[] = [];
+const pinnedExampleReviews: ReviewItem[] = [
+  {
+    id: 'sample-permanent-3',
+    name: 'Rabbani AR',
+    role: 'Final Grade Student',
+    time: 'Official Note',
+    rating: 5,
+    type: 'ulasan',
+    text: 'Ucapan Terima Kasih atas dukungannya kepada : Ust.Iqbal Husyen, Ust.Hafizh Annafi, Elang Nayantoko, Naufal Althaf, dan Athar Rizqy',
+    isPermanent: true,
+  }
+];
+
+const initialReviews: ReviewItem[] = pinnedExampleReviews;
 
 const galleryItems = [
   {
@@ -343,30 +358,50 @@ export default function App() {
 
   // Reviews states synced with Firebase Firestore in real-time
   const [reviewsList, setReviewsList] = useState<ReviewItem[]>(initialReviews);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   useEffect(() => {
     try {
       const q = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         if (!snapshot.empty) {
+          const now = Date.now();
           const fetched: ReviewItem[] = snapshot.docs.map(docSnap => {
             const data = docSnap.data();
+            let displayTime = data.time || 'Baru saja';
+            if (data.createdAt && typeof data.createdAt === 'number') {
+              const diffMinutes = Math.floor((now - data.createdAt) / (1000 * 60));
+              if (diffMinutes < 1) {
+                displayTime = 'Baru saja';
+              } else if (diffMinutes < 60) {
+                displayTime = `${diffMinutes} mnt lalu`;
+              } else {
+                const diffHours = Math.floor(diffMinutes / 60);
+                if (diffHours < 24) {
+                  displayTime = `${diffHours} jam lalu`;
+                } else {
+                  const diffDays = Math.floor(diffHours / 24);
+                  displayTime = `${diffDays} hari lalu`;
+                }
+              }
+            }
             return {
               id: docSnap.id,
               name: data.name || 'Pengunjung',
               role: data.role || 'Penonton',
-              time: data.time || 'Baru saja',
+              time: displayTime,
               rating: Number(data.rating) || 5,
               type: (data.type === 'saran' ? 'saran' : 'ulasan') as 'ulasan' | 'saran',
-              text: data.text || ''
+              text: data.text || '',
+              isPermanent: false
             };
           });
-          setReviewsList(fetched);
+          // Gabungkan ulasan pinned resmi (yang tidak bisa dihapus) dengan ulasan real-time dari Firestore
+          setReviewsList([...pinnedExampleReviews, ...fetched]);
         } else {
-          setReviewsList(initialReviews);
+          setReviewsList(pinnedExampleReviews);
         }
       }, (error) => {
-        // Handle transient connection or offline mode without throwing breaking errors
         console.warn('Firestore subscription status:', error.message);
       });
       return () => unsubscribe();
@@ -389,8 +424,9 @@ export default function App() {
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newReviewName.trim() || !newReviewText.trim()) return;
+    if (!newReviewName.trim() || !newReviewText.trim() || isSubmittingReview) return;
 
+    setIsSubmittingReview(true);
     const newEntry = {
       name: newReviewName.trim(),
       role: newReviewRole.trim() || 'Penonton',
@@ -407,7 +443,7 @@ export default function App() {
       setNewReviewRole('');
       setNewReviewRating(5);
       setNewReviewText('');
-      showToast('Terima kasih! Ulasan kamu telah tersimpan secara publik.');
+      showToast('Terima kasih! Ulasan kamu telah tersimpan ke database publik.');
     } catch (err) {
       console.error('Error adding review to Firestore:', err);
       const localEntry: ReviewItem = {
@@ -425,11 +461,18 @@ export default function App() {
       setNewReviewRating(5);
       setNewReviewText('');
       showToast('Ulasan kamu telah tersimpan secara lokal.');
+    } finally {
+      setIsSubmittingReview(false);
     }
   };
 
   const handleDeleteReview = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    const target = reviewsList.find(item => item.id === id);
+    if (target?.isPermanent) {
+      showToast('Ulasan resmi ini tersemat permanen dan tidak dapat dihapus.');
+      return;
+    }
     try {
       await deleteDoc(doc(db, 'reviews', id));
     } catch (err) {
@@ -514,11 +557,27 @@ export default function App() {
     showToast(message);
   };
 
-  const handleContactSubmit = (e: FormEvent) => {
+  const handleContactSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsContactOpen(false);
-    triggerToast(`Terima kasih ${formData.fullName}, pesan Anda telah kami terima!`);
-    setFormData({ fullName: '', email: '', message: '' });
+    if (!formData.fullName || !formData.email) return;
+    
+    const submittedName = formData.fullName;
+    try {
+      await addDoc(collection(db, 'contacts'), {
+        fullName: formData.fullName.trim(),
+        email: formData.email.trim(),
+        message: formData.message.trim(),
+        createdAt: Date.now()
+      });
+      setIsContactOpen(false);
+      triggerToast(`Terima kasih ${submittedName}, pesan Anda telah tersimpan ke database panitia!`);
+      setFormData({ fullName: '', email: '', message: '' });
+    } catch (err) {
+      console.warn('Firestore contact submit error (fallback local):', err);
+      setIsContactOpen(false);
+      triggerToast(`Terima kasih ${submittedName}, pesan Anda telah kami terima!`);
+      setFormData({ fullName: '', email: '', message: '' });
+    }
   };
 
   return (
@@ -668,6 +727,18 @@ export default function App() {
                 {
                   name: 'Al-Fath',
                   logo: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/alfath.png',
+                },
+                {
+                  name: 'Nisa Decoration',
+                  logo: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/NISA%20DECORATION.png',
+                },
+                {
+                  name: 'Kereta Api Indonesia (KAI)',
+                  logo: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/Logo%20KAI.png',
+                },
+                {
+                  name: 'Ngabers Random',
+                  logo: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/NGABERS%20RANDOM.png',
                 },
               ];
               // Duplicate array so marquee track is filled amply
@@ -1752,13 +1823,23 @@ export default function App() {
                             <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                           ))}
                         </div>
-                        <button
-                          onClick={(e) => handleDeleteReview(item.id, e)}
-                          title="Hapus ulasan"
-                          className="opacity-0 group-hover:opacity-100 text-amber-500/40 hover:text-red-400 transition-all p-0.5 rounded hover:bg-red-500/10"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
+                        {item.isPermanent ? (
+                          <span
+                            title="Ulasan Resmi Tersemat (Permanen)"
+                            className="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[9px] font-mono tracking-tight"
+                          >
+                            <ShieldCheck className="w-3 h-3 text-amber-400" />
+                            <span>Pinned</span>
+                          </span>
+                        ) : (
+                          <button
+                            onClick={(e) => handleDeleteReview(item.id, e)}
+                            title="Hapus ulasan"
+                            className="opacity-0 group-hover:opacity-100 text-amber-500/40 hover:text-red-400 transition-all p-0.5 rounded hover:bg-red-500/10"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        )}
                       </div>
                     </div>
 
@@ -1951,10 +2032,20 @@ export default function App() {
                 <div className="sm:col-span-4">
                   <button
                     type="submit"
-                    className="w-full h-[40px] bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 hover:from-amber-600 hover:to-amber-700 text-amber-950 font-extrabold text-xs font-mono uppercase tracking-wider rounded-lg border border-amber-400/60 shadow-[0_4px_15px_rgba(212,175,55,0.2)] flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                    disabled={isSubmittingReview}
+                    className="w-full h-[40px] bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-black font-extrabold text-xs font-mono uppercase tracking-wider rounded-lg border border-amber-300/80 shadow-[0_4px_15px_rgba(212,175,55,0.25)] flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <Send className="w-3.5 h-3.5 text-amber-950" />
-                    <span>KIRIM ULASAN</span>
+                    {isSubmittingReview ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                        <span>MENYIMPAN...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5 text-black" />
+                        <span>KIRIM {newReviewType === 'ulasan' ? 'ULASAN' : 'SARAN'}</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
@@ -2131,14 +2222,15 @@ export default function App() {
         </div>
       </section>
 
-      {/* Info Panel Bar (Modernized Golden Ticket Footer block) */}
-      <footer className="relative z-20 w-full max-w-4xl mx-auto px-6 mb-8 mt-4" id="info-footer-container">
-        <div className="relative bg-[#040404]/90 backdrop-blur-xl rounded-xl py-4 px-6 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.95)] gold-outer-glow text-center">
-          <p className="font-cinzel text-xs md:text-sm font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-[#fef4db] via-[#d4af37] to-[#8a6f27] uppercase">
-            The Absolute "Panggung Gembira" by the Final Year Students of Gontor 2
-          </p>
-        </div>
-      </footer>
+      {/* Main Theme Footer (Matching Reference Design) */}
+      <Footer
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenGuidebook={() => setIsDetailsOpen(true)}
+        onScrollToFlyer={() => {
+          const el = document.getElementById('flyer-section');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }}
+      />
 
       {/* MODAL 1: TRAILER (YOUTUBE EMBED) */}
       {isTrailerOpen && (
@@ -2488,7 +2580,7 @@ export default function App() {
               </button>
             </div>
 
-            {/* Descriptive Content Footer */}
+            {/* Content Footer */}
             <motion.div
               key={`desc-${activeImageIndex}`}
               initial={{ opacity: 0, y: 15 }}
@@ -2503,9 +2595,6 @@ export default function App() {
               <h4 className="font-cinzel text-xl md:text-2xl font-bold text-amber-300 tracking-wide pt-2">
                 {galleryItems[activeImageIndex].title}
               </h4>
-              <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light">
-                {galleryItems[activeImageIndex].description}
-              </p>
               
               {/* Pagination indicators */}
               <div className="flex justify-center space-x-2 pt-4">

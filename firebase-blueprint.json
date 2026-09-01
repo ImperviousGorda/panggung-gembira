@@ -15,12 +15,30 @@
         "createdAt": { "type": "number" }
       },
       "required": ["name", "role", "rating", "text", "type"]
+    },
+    "contacts": {
+      "title": "Contact Messages",
+      "description": "Messages sent through the contact form",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["fullName", "email", "message"]
     }
   },
   "securityRules": {
     "reviews": {
       "read": "true",
       "create": "request.resource.data.name is string && request.resource.data.text is string",
+      "update": "false",
+      "delete": "true"
+    },
+    "contacts": {
+      "read": "true",
+      "create": "request.resource.data.fullName is string && request.resource.data.email is string",
       "update": "false",
       "delete": "true"
     }

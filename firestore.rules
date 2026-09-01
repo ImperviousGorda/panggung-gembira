@@ -8,5 +8,11 @@ service cloud.firestore {
       allow update: if false;
       allow delete: if true;
     }
+    match /contacts/{contactId} {
+      allow read: if true;
+      allow create: if request.resource.data.fullName is string && request.resource.data.email is string;
+      allow update: if false;
+      allow delete: if true;
+    }
   }
 }
