@@ -111,7 +111,7 @@ interface ReviewItem {
 const pinnedExampleReviews: ReviewItem[] = [
   {
     id: 'sample-permanent-3',
-    name: 'Rabbani AR',
+    name: 'Ben',
     role: 'Final Grade Student',
     time: 'Official Note',
     rating: 5,
