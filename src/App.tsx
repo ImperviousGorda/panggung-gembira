@@ -690,6 +690,174 @@ export default function App() {
       {/* Dedicated Section: Shareable Flyer & Digital Invitation Card */}
       <FlyerSection onShowToast={(msg) => showToast(msg)} />
 
+      {/* Lokasi & Waktu Acara Section (Immersive Full-Width Bleed) */}
+      <section className="relative z-20 w-full py-24 text-center space-y-12 overflow-hidden border-y border-amber-500/10" id="location-time-section">
+        {/* Decorative background lights and image */}
+        <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+          {/* Elegant Background Image */}
+          <div className="absolute inset-0 opacity-100">
+            <img
+              src="https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/BG.jpg"
+              alt="Decorative Background Pattern"
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+            {/* Smooth Edge Blend and Light Overlay for Text Readability */}
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#040404] via-transparent to-[#040404]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#040404] via-transparent to-[#040404]" />
+          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[150px]" />
+        </div>
+
+        {/* Section Header */}
+        {/* Main Content Wrapper */}
+        <div className="relative z-10 max-w-6xl mx-auto px-6 space-y-12">
+          <motion.div
+          className="space-y-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2
+              }
+            }
+          }}
+        >
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            }}
+            className="flex justify-center items-center space-x-3"
+          >
+            <div className="w-8 h-[1px] bg-amber-500/30"></div>
+            <p className="text-xs font-semibold tracking-[0.3em] text-amber-400 uppercase font-cinzel">LOKASI & JADWAL</p>
+            <div className="w-8 h-[1px] bg-amber-500/30"></div>
+          </motion.div>
+          <motion.h3
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            }}
+            className="font-amagro text-3xl lg:text-4xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#fef4db] via-[#d4af37] to-[#8a6f27]"
+          >
+            Waktu & Tempat Pelaksanaan
+          </motion.h3>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            }}
+            className="font-amagro text-sm font-semibold tracking-widest text-amber-500/80 uppercase"
+          >
+            Hadiri dan Saksikan The Absolute Panggung Gembira
+          </motion.p>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, scaleX: 0 },
+              visible: { opacity: 1, scaleX: 1, transition: { duration: 0.8, ease: "easeOut" } }
+            }}
+            className="w-24 h-[1px] bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mx-auto mt-4 origin-center"
+          ></motion.div>
+        </motion.div>
+
+        {/* Info Grid & Maps */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch text-left">
+          {/* Information Cards (5 cols) */}
+          <motion.div
+            className="lg:col-span-5 flex flex-col justify-between gap-6"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            {/* Card 1: Waktu */}
+            <div className="bg-[#030303]/80 border border-amber-500/15 rounded-2xl p-6 md:p-8 flex items-start space-x-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:border-amber-500/30 transition-all duration-300 relative group">
+              <div className="absolute top-0 left-0 w-1 h-full bg-amber-500 rounded-l-2xl group-hover:h-full transition-all duration-300"></div>
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 text-amber-400 shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
+                <Clock className="w-6 h-6 stroke-[1.5]" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-amagro text-lg font-bold text-amber-300 tracking-wide">
+                  Waktu Pelaksanaan
+                </h4>
+                <div className="space-y-1 text-sm text-gray-300">
+                  <p className="font-semibold text-amber-100">Ahad, 13 September 2026</p>
+                  <p className="text-xs text-gray-400">Pukul 19.00 WIB s.d. Selesai</p>
+                  <p className="text-xs text-amber-500/70 italic mt-1">* Diharapkan hadir 15 menit sebelum acara dimulai</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2: Tempat */}
+            <div className="bg-[#030303]/80 border border-amber-500/15 rounded-2xl p-6 md:p-8 flex items-start space-x-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:border-amber-500/30 transition-all duration-300 relative group flex-1">
+              <div className="absolute top-0 left-0 w-1 h-full bg-amber-500 rounded-l-2xl group-hover:h-full transition-all duration-300"></div>
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 text-amber-400 shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
+                <MapPin className="w-6 h-6 stroke-[1.5]" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-amagro text-lg font-bold text-amber-300 tracking-wide">
+                  Lokasi Pagelaran
+                </h4>
+                <div className="space-y-1 text-sm text-gray-300">
+                  <p className="font-semibold text-amber-100">Lapangan Sintesa Gontor Kampus 2</p>
+                  <p className="text-xs text-gray-400 leading-relaxed">
+                    Darussalam, Madusari, Kec. Siman, Kabupaten Ponorogo, Jawa Timur 63471
+                  </p>
+                  <span className="inline-block mt-2 text-[10px] bg-amber-500/10 text-amber-300 px-2.5 py-1 rounded border border-amber-500/20 font-mono tracking-widest uppercase">
+                    KAMPUS PUTRA GONTOR 2
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Map Embed (7 cols) */}
+          <motion.div
+            className="lg:col-span-7 h-[320px] md:h-[400px] rounded-2xl overflow-hidden border-2 border-amber-500/20 shadow-[0_15px_40px_rgba(0,0,0,0.8)] relative bg-[#040404]"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            {/* Elegant outer frame glow */}
+            <div className="absolute inset-0 border border-amber-500/10 pointer-events-none rounded-2xl z-10" />
+            <iframe
+              title="Peta Pondok Modern Darussalam Gontor Kampus 2"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3288.0941984122287!2d111.4578156741049!3d-7.906782178686045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e797566935729b7%3A0x6528662bf74ac3e0!2sPondok%20Modern%20Darussalam%20Gontor%202%20Putera!5e1!3m2!1sid!2sid!4v1782923087498!5m2!1sid!2sid"
+              className="w-full h-full border-0 filter grayscale opacity-80 contrast-125 brightness-90 hover:filter-none hover:opacity-100 transition-all duration-500"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </motion.div>
+        </div>
+        </div>
+      </section>
+
+      {/* Gallery Divider Ribbon Cocoa - Full Screen Width Divider */}
+      <div ref={cocoaRibbonRef} className="relative w-full overflow-hidden py-1 z-30 select-none pointer-events-none" id="gallery-ribbon-container">
+        <motion.div
+          style={{ clipPath: cocoaRibbonClipPath, opacity: cocoaRibbonOpacity }}
+          className="w-[130vw] md:w-[115vw] relative left-1/2 right-1/2 -translate-x-1/2 flex justify-center pointer-events-none"
+        >
+          <img
+            src={ribbonCocoa}
+            alt="Ribbon Cocoa"
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto max-h-[140px] md:max-h-[160px] object-cover scale-[1.25] md:scale-100 origin-center pointer-events-none"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </div>
+
       {/* Sponsor Section (Horizontal Slide Otomatis) */}
       <section className="relative z-20 w-full overflow-hidden pt-4 pb-12" id="sponsor-section">
         <div className="max-w-6xl mx-auto px-6 mb-8 text-center space-y-2">
@@ -2051,174 +2219,6 @@ export default function App() {
               </div>
             </div>
           </form>
-        </div>
-      </section>
-
-      {/* Gallery Divider Ribbon Cocoa - Full Screen Width Divider */}
-      <div ref={cocoaRibbonRef} className="relative w-full overflow-hidden py-1 z-30 select-none pointer-events-none" id="gallery-ribbon-container">
-        <motion.div
-          style={{ clipPath: cocoaRibbonClipPath, opacity: cocoaRibbonOpacity }}
-          className="w-[130vw] md:w-[115vw] relative left-1/2 right-1/2 -translate-x-1/2 flex justify-center pointer-events-none"
-        >
-          <img
-            src={ribbonCocoa}
-            alt="Ribbon Cocoa"
-            loading="lazy"
-            decoding="async"
-            className="w-full h-auto max-h-[140px] md:max-h-[160px] object-cover scale-[1.25] md:scale-100 origin-center pointer-events-none"
-            referrerPolicy="no-referrer"
-          />
-        </motion.div>
-      </div>
-
-      {/* Lokasi & Waktu Acara Section (Immersive Full-Width Bleed) */}
-      <section className="relative z-20 w-full py-24 text-center space-y-12 overflow-hidden border-y border-amber-500/10" id="location-time-section">
-        {/* Decorative background lights and image */}
-        <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
-          {/* Elegant Background Image */}
-          <div className="absolute inset-0 opacity-100">
-            <img
-              src="https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/BG.jpg"
-              alt="Decorative Background Pattern"
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            {/* Smooth Edge Blend and Light Overlay for Text Readability */}
-            <div className="absolute inset-0 bg-black/50" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#040404] via-transparent to-[#040404]" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#040404] via-transparent to-[#040404]" />
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[150px]" />
-        </div>
-
-        {/* Section Header */}
-        {/* Main Content Wrapper */}
-        <div className="relative z-10 max-w-6xl mx-auto px-6 space-y-12">
-          <motion.div
-          className="space-y-3"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.2
-              }
-            }
-          }}
-        >
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-            }}
-            className="flex justify-center items-center space-x-3"
-          >
-            <div className="w-8 h-[1px] bg-amber-500/30"></div>
-            <p className="text-xs font-semibold tracking-[0.3em] text-amber-400 uppercase font-cinzel">LOKASI & JADWAL</p>
-            <div className="w-8 h-[1px] bg-amber-500/30"></div>
-          </motion.div>
-          <motion.h3
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-            }}
-            className="font-amagro text-3xl lg:text-4xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#fef4db] via-[#d4af37] to-[#8a6f27]"
-          >
-            Waktu & Tempat Pelaksanaan
-          </motion.h3>
-          <motion.p
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-            }}
-            className="font-amagro text-sm font-semibold tracking-widest text-amber-500/80 uppercase"
-          >
-            Hadiri dan Saksikan The Absolute Panggung Gembira
-          </motion.p>
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, scaleX: 0 },
-              visible: { opacity: 1, scaleX: 1, transition: { duration: 0.8, ease: "easeOut" } }
-            }}
-            className="w-24 h-[1px] bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mx-auto mt-4 origin-center"
-          ></motion.div>
-        </motion.div>
-
-        {/* Info Grid & Maps */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch text-left">
-          {/* Information Cards (5 cols) */}
-          <motion.div
-            className="lg:col-span-5 flex flex-col justify-between gap-6"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            {/* Card 1: Waktu */}
-            <div className="bg-[#030303]/80 border border-amber-500/15 rounded-2xl p-6 md:p-8 flex items-start space-x-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:border-amber-500/30 transition-all duration-300 relative group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-amber-500 rounded-l-2xl group-hover:h-full transition-all duration-300"></div>
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 text-amber-400 shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
-                <Clock className="w-6 h-6 stroke-[1.5]" />
-              </div>
-              <div className="space-y-2">
-                <h4 className="font-amagro text-lg font-bold text-amber-300 tracking-wide">
-                  Waktu Pelaksanaan
-                </h4>
-                <div className="space-y-1 text-sm text-gray-300">
-                  <p className="font-semibold text-amber-100">Ahad, 13 September 2026</p>
-                  <p className="text-xs text-gray-400">Pukul 19.00 WIB s.d. Selesai</p>
-                  <p className="text-xs text-amber-500/70 italic mt-1">* Diharapkan hadir 15 menit sebelum acara dimulai</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2: Tempat */}
-            <div className="bg-[#030303]/80 border border-amber-500/15 rounded-2xl p-6 md:p-8 flex items-start space-x-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:border-amber-500/30 transition-all duration-300 relative group flex-1">
-              <div className="absolute top-0 left-0 w-1 h-full bg-amber-500 rounded-l-2xl group-hover:h-full transition-all duration-300"></div>
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 text-amber-400 shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
-                <MapPin className="w-6 h-6 stroke-[1.5]" />
-              </div>
-              <div className="space-y-2">
-                <h4 className="font-amagro text-lg font-bold text-amber-300 tracking-wide">
-                  Lokasi Pagelaran
-                </h4>
-                <div className="space-y-1 text-sm text-gray-300">
-                  <p className="font-semibold text-amber-100">Lapangan Sintesa Gontor Kampus 2</p>
-                  <p className="text-xs text-gray-400 leading-relaxed">
-                    Darussalam, Madusari, Kec. Siman, Kabupaten Ponorogo, Jawa Timur 63471
-                  </p>
-                  <span className="inline-block mt-2 text-[10px] bg-amber-500/10 text-amber-300 px-2.5 py-1 rounded border border-amber-500/20 font-mono tracking-widest uppercase">
-                    KAMPUS PUTRA GONTOR 2
-                  </span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Map Embed (7 cols) */}
-          <motion.div
-            className="lg:col-span-7 h-[320px] md:h-[400px] rounded-2xl overflow-hidden border-2 border-amber-500/20 shadow-[0_15px_40px_rgba(0,0,0,0.8)] relative bg-[#040404]"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            {/* Elegant outer frame glow */}
-            <div className="absolute inset-0 border border-amber-500/10 pointer-events-none rounded-2xl z-10" />
-            <iframe
-              title="Peta Pondok Modern Darussalam Gontor Kampus 2"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3288.0941984122287!2d111.4578156741049!3d-7.906782178686045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e797566935729b7%3A0x6528662bf74ac3e0!2sPondok%20Modern%20Darussalam%20Gontor%202%20Putera!5e1!3m2!1sid!2sid!4v1782923087498!5m2!1sid!2sid"
-              className="w-full h-full border-0 filter grayscale opacity-80 contrast-125 brightness-90 hover:filter-none hover:opacity-100 transition-all duration-500"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </motion.div>
-        </div>
         </div>
       </section>
 
