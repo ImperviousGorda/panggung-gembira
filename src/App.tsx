@@ -11,6 +11,7 @@ import CinematicPreloader from './components/CinematicPreloader';
 import CustomCursor from './components/CustomCursor';
 import { FlyerSection } from './components/FlyerSection';
 import Footer from './components/Footer';
+import VenueMapSection from './components/VenueMapSection';
 import { ContactFormData, ShowBabak } from './types';
 
 // Import Logo Shard Images for Philosophy Section
@@ -192,25 +193,23 @@ const galleryItems = [
     description: 'Ketangkasan fisik berpadu dalam keindahan jurus pencak silat, senam formasi, lompat api, dan atraksi kekuatan santri.',
   },
   {
-    title: 'Simfoni Cahaya Malam',
+    title: 'Poster Panggung Gembira',
     brand: '@pg2.official',
     subtitle: 'Gontor 2',
-    category: 'Panggung' as const,
-    image: pgStage,
+    category: 'Poster' as const,
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/f4%20(2).jpg',
     likes: 4200,
     overlayStyle: 'badge-headline',
-    badge: 'MAHAKARYA PERADABAN',
-    headline: 'GEMA SIMFONI HASIL DEDIKASI!',
-    description: 'Tata panggung spektakuler dengan permainan sinar laser dan lampu sorot tematik mengangkasa ke langit malam Ponorogo.',
+    badge: 'Panggung Gembira',
+    headline: 'POSTER PANGGUNG GEMBIRA',
   },
   {
-    title: 'Gelora Tari Persada',
+    title: 'Menuju Panggung Gembira',
     brand: '@pg2.official',
     subtitle: 'Indonesia',
-    category: 'Pentas' as const,
-    image: pgDance,
+    category: 'Poster' as const,
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/13%20hari%20h.webp',
     likes: 2650,
-    description: 'Harmoni gerak dan irama yang menceritakan perjalanan generasi perintis dalam membina peradaban luhur.',
   },
 ];
 
@@ -651,7 +650,7 @@ export default function App() {
 
             {/* Interaction Button Group */}
             <div className="flex flex-wrap items-center gap-3.5 pt-4 relative z-20" id="hero-buttons">
-              {/* Show Details CTA */}
+              {/* Show Babak / Lihat Pertunjukan CTA */}
               <button
                 onClick={() => setIsDetailsOpen(true)}
                 className="border border-amber-500/20 bg-zinc-950/85 text-amber-100 hover:text-black hover:border-transparent px-5 py-3 rounded-lg flex items-center space-x-2.5 text-xs tracking-widest uppercase font-semibold group transition-all duration-300 hover:bg-gradient-to-r hover:from-amber-600 hover:to-amber-400 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] cursor-pointer backdrop-blur-md"
@@ -841,22 +840,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gallery Divider Ribbon Cocoa - Full Screen Width Divider */}
-      <div ref={cocoaRibbonRef} className="relative w-full overflow-hidden py-1 z-30 select-none pointer-events-none" id="gallery-ribbon-container">
-        <motion.div
-          style={{ clipPath: cocoaRibbonClipPath, opacity: cocoaRibbonOpacity }}
-          className="w-[130vw] md:w-[115vw] relative left-1/2 right-1/2 -translate-x-1/2 flex justify-center pointer-events-none"
-        >
-          <img
-            src={ribbonCocoa}
-            alt="Ribbon Cocoa"
-            loading="lazy"
-            decoding="async"
-            className="w-full h-auto max-h-[140px] md:max-h-[160px] object-cover scale-[1.25] md:scale-100 origin-center pointer-events-none"
-            referrerPolicy="no-referrer"
-          />
-        </motion.div>
-      </div>
+      {/* Interactive Map Venue (Denah Acara) */}
+      <VenueMapSection />
 
       {/* Sponsor Section (Horizontal Slide Otomatis) */}
       <section className="relative z-20 w-full overflow-hidden pt-4 pb-12" id="sponsor-section">
@@ -1832,6 +1817,31 @@ export default function App() {
           })}
         </div>
       </section>
+
+      {/* Gallery Divider Ribbon Cocoa - Full Screen Width Divider between Gallery and Reviews */}
+      <div
+        ref={cocoaRibbonRef}
+        className="relative w-full overflow-hidden py-1 z-30 select-none pointer-events-none"
+        id="gallery-ribbon-container"
+      >
+        <motion.div
+          style={{
+            clipPath: cocoaRibbonClipPath,
+            opacity: cocoaRibbonOpacity,
+            willChange: 'clip-path, opacity',
+          }}
+          className="w-[130vw] md:w-[115vw] relative left-1/2 right-1/2 -translate-x-1/2 flex justify-center pointer-events-none"
+        >
+          <img
+            src={ribbonCocoa}
+            alt="Ribbon Cocoa"
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto max-h-[140px] md:max-h-[160px] object-cover scale-[1.25] md:scale-100 origin-center pointer-events-none"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </div>
 
       {/* Ulasan & Saran Section (Matching Reference Image) */}
       <section ref={reviewsSectionRef} className="relative z-20 w-full py-20 px-4 sm:px-6 lg:px-12 bg-[#040404] text-amber-100 overflow-hidden border-t border-amber-500/15 space-y-10" id="reviews-section">

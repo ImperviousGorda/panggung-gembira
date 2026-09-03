@@ -14,6 +14,7 @@ if (typeof window !== 'undefined') {
 gsap.registerPlugin(ScrollTrigger);
 
 interface CinematicPreloaderProps {
+  key?: React.Key;
   onAnimationComplete?: () => void;
 }
 

@@ -1,3 +1,4 @@
+import React from "react";
 import shieldLogoImg from "../assets/images/logo_1_2.png";
 
 export default function Header() {
