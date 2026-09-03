@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://panggung-gembira2.vercel.app/</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/BG.jpg</image:loc>
+      <image:title>Panggung Gembira 6101 - Pagelaran Seni Siswa Akhir KMI Gontor Kampus 2</image:title>
+      <image:caption>Pagelaran Seni Siswa Akhir KMI 6101 Pondok Modern Darussalam Gontor Kampus 2</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://panggung-gembira2.vercel.app/#venue-map-section</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://panggung-gembira2.vercel.app/#gallery-section</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://panggung-gembira2.vercel.app/#reviews-section</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

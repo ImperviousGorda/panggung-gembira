@@ -29,18 +29,14 @@
       "required": ["fullName", "email", "message"]
     }
   },
-  "securityRules": {
-    "reviews": {
-      "read": "true",
-      "create": "request.resource.data.name is string && request.resource.data.text is string",
-      "update": "false",
-      "delete": "true"
+  "firestore": {
+    "/reviews/{reviewId}": {
+      "schema": "reviews",
+      "description": "Collection storing public audience reviews and suggestions"
     },
-    "contacts": {
-      "read": "true",
-      "create": "request.resource.data.fullName is string && request.resource.data.email is string",
-      "update": "false",
-      "delete": "true"
+    "/contacts/{contactId}": {
+      "schema": "contacts",
+      "description": "Collection storing messages sent via contact form"
     }
   }
 }

@@ -1,0 +1,7 @@
+# Robots.txt for Panggung Gembira 6101 Gontor Kampus 2
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://panggung-gembira2.vercel.app/sitemap.xml
