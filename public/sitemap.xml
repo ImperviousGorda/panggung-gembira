@@ -12,22 +12,4 @@
       <image:caption>Pagelaran Seni Siswa Akhir KMI 6101 Pondok Modern Darussalam Gontor Kampus 2</image:caption>
     </image:image>
   </url>
-  <url>
-    <loc>https://imper-g2.my.id/#venue-map-section</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://imper-g2.my.id/#gallery-section</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://imper-g2.my.id/#reviews-section</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
 </urlset>
