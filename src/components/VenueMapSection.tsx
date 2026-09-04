@@ -193,10 +193,10 @@ export const VenueMapSection: React.FC = () => {
                         'panggung'
                       )}`}
                     >
-                      <div className="font-serif text-lg sm:text-2xl font-extrabold tracking-wider uppercase leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                      <div className="font-amagro text-lg sm:text-2xl font-bold tracking-wider uppercase leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                         Panggung
                       </div>
-                      <div className="font-serif text-lg sm:text-2xl font-extrabold tracking-wider uppercase leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                      <div className="font-amagro text-lg sm:text-2xl font-bold tracking-wider uppercase leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                         Acara
                       </div>
                     </motion.button>
