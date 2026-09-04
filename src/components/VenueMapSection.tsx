@@ -150,7 +150,7 @@ export const VenueMapSection: React.FC = () => {
     <section
       ref={sectionRef}
       id="venue-map-section"
-      className="relative z-20 w-full py-24 px-6 lg:px-16 bg-[#040404] text-amber-100 border-t border-amber-500/15 overflow-hidden"
+      className="relative z-20 w-full py-24 px-6 lg:px-16 bg-[#040404] text-amber-100 border-t border-b border-amber-500/20 overflow-hidden"
     >
       {/* Top Hairline Glowing Divider matching other sections */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent pointer-events-none" />
@@ -781,6 +781,15 @@ export const VenueMapSection: React.FC = () => {
             </div>
           </motion.div>
         </div>
+      </div>
+
+      {/* Luxurious Bottom Border */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none select-none z-10">
+        {/* Soft Ambient Golden Glow Layer */}
+        <div className="absolute -bottom-2 left-1/4 right-1/4 h-4 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent blur-md" />
+        
+        {/* Primary Radiant Hairline Divider */}
+        <div className="w-full h-[1.5px] bg-gradient-to-r from-transparent via-amber-400/60 to-transparent shadow-[0_0_12px_rgba(245,158,11,0.4)]" />
       </div>
     </section>
   );

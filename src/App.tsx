@@ -12,6 +12,7 @@ import CustomCursor from './components/CustomCursor';
 import { FlyerSection } from './components/FlyerSection';
 import Footer from './components/Footer';
 import VenueMapSection from './components/VenueMapSection';
+import OptimizedImage from './components/OptimizedImage';
 import { ContactFormData, ShowBabak } from './types';
 
 // Import Logo Shard Images for Philosophy Section
@@ -227,7 +228,7 @@ export default function App() {
     [0, 1]
   );
 
-  // Scroll-driven wipe effect for Cocoa Ribbon below gallery
+  // Scroll-driven wipe effect for Cocoa Ribbon below gallery (identical to Ribbon Krem)
   const cocoaRibbonRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: cocoaRibbonScrollProgress } = useScroll({
     target: cocoaRibbonRef,
@@ -245,6 +246,7 @@ export default function App() {
     [0.1, 0.3],
     [0, 1]
   );
+
 
   // Scroll-driven background animations for philosophy sections
   const aboutSectionRef = useRef<HTMLElement>(null);
@@ -651,18 +653,6 @@ export default function App() {
               >
                 <Sparkles className="w-4 h-4 text-amber-400 group-hover:text-black transition-colors" />
                 <span>Lihat Pertunjukan</span>
-              </button>
-
-              {/* Circle Play Trailer CTA */}
-              <button
-                onClick={() => setIsTrailerOpen(true)}
-                className="flex items-center space-x-2.5 text-amber-200 hover:text-amber-400 transition-colors group cursor-pointer pl-1"
-                id="btn-play-trailer"
-              >
-                <div className="w-10 h-10 rounded-full border border-amber-500/20 flex items-center justify-center group-hover:scale-105 group-hover:border-amber-400 transition-all duration-300 bg-zinc-950/85 backdrop-blur-md">
-                  <Play className="w-3.5 h-3.5 fill-amber-400 text-amber-400 group-hover:fill-amber-300 group-hover:text-amber-300 transition-colors" />
-                </div>
-                <span className="text-xs uppercase tracking-widest font-semibold">Trailer</span>
               </button>
             </div>
           </div>
@@ -1460,13 +1450,13 @@ export default function App() {
               className="bg-zinc-950/90 backdrop-blur-xl border border-amber-500/20 rounded-2xl p-3 sm:p-4 lg:mt-12 hover:border-amber-400/40 transition-all duration-500 shadow-[0_15px_35px_rgba(0,0,0,0.85)] hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] flex flex-col justify-between min-h-[380px] sm:min-h-[460px]"
             >
               <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-amber-500/10">
-                <img
+                <OptimizedImage
                   src={'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_0731.webp'}
                   alt="Reog Ponorogo"
-                  loading="lazy"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 hover:brightness-100 transition-all duration-700 ease-out"
+                  width={640}
+                  quality={80}
+                  isGrayscale={true}
+                  className="brightness-90 hover:grayscale-0 hover:brightness-100 transition-all duration-700 ease-out"
                 />
               </div>
 
@@ -1717,19 +1707,17 @@ export default function App() {
                   onClick={() => setActiveImageIndex(index)}
                   className="relative aspect-square w-full overflow-hidden bg-zinc-950 cursor-pointer group/image"
                 >
-                  <img
+                  <OptimizedImage
                     src={item.image}
                     alt={item.title}
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover/image:scale-105 ${
-                      item.isGrayscale ? 'grayscale contrast-125' : ''
-                    }`}
+                    width={640}
+                    quality={80}
+                    isGrayscale={item.isGrayscale}
+                    className="transition-transform duration-700 ease-out group-hover/image:scale-105"
                   />
 
                   {/* Hover Overlay Zoom Indicator */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10 pointer-events-none">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/80 backdrop-blur-md flex items-center justify-center text-amber-300 transform scale-90 group-hover/image:scale-100 transition-all duration-300 shadow-xl border border-amber-500/40">
                       <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-300 rotate-90 ml-0.5" />
                     </div>
@@ -1812,17 +1800,9 @@ export default function App() {
       </section>
 
       {/* Gallery Divider Ribbon Cocoa - Full Screen Width Divider between Gallery and Reviews */}
-      <div
-        ref={cocoaRibbonRef}
-        className="relative w-full overflow-hidden py-1 z-30 select-none pointer-events-none"
-        id="gallery-ribbon-container"
-      >
+      <div ref={cocoaRibbonRef} className="relative w-full overflow-hidden py-1 z-30 select-none pointer-events-none" id="gallery-ribbon-container">
         <motion.div
-          style={{
-            clipPath: cocoaRibbonClipPath,
-            opacity: cocoaRibbonOpacity,
-            willChange: 'clip-path, opacity',
-          }}
+          style={{ clipPath: cocoaRibbonClipPath, opacity: cocoaRibbonOpacity }}
           className="w-[130vw] md:w-[115vw] relative left-1/2 right-1/2 -translate-x-1/2 flex justify-center pointer-events-none"
         >
           <img
@@ -2558,15 +2538,17 @@ export default function App() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -15 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
-                className="w-full max-h-[70vh] aspect-video rounded-2xl overflow-hidden border border-amber-500/10 shadow-[0_0_50px_rgba(0,0,0,0.9)] bg-black flex items-center justify-center"
+                className="w-full max-h-[75vh] md:max-h-[80vh] flex items-center justify-center rounded-2xl overflow-hidden border border-amber-500/10 shadow-[0_0_50px_rgba(0,0,0,0.9)] bg-black/60 backdrop-blur-sm"
               >
-                <img
+                <OptimizedImage
                   src={galleryItems[activeImageIndex].image}
                   alt={galleryItems[activeImageIndex].title}
-                  loading="lazy"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-contain"
+                  width={1600}
+                  quality={90}
+                  priority={true}
+                  fit="contain"
+                  containerClassName="max-h-[75vh] md:max-h-[80vh] w-auto h-full flex items-center justify-center"
+                  className="max-h-[75vh] md:max-h-[80vh] w-auto h-auto object-contain"
                 />
               </motion.div>
 
