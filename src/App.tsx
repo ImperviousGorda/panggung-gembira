@@ -126,71 +126,64 @@ const initialReviews: ReviewItem[] = pinnedExampleReviews;
 
 const galleryItems = [
   {
-    title: 'Panggung Utama Mahakarya',
+    title: 'Tari Kecak',
     brand: '@pg2.official',
     subtitle: 'Indonesia',
-    category: 'Panggung' as const,
-    image: pgStage,
+    category: 'Tarian' as const,
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_2396.webp',
     likes: 2027,
     overlayStyle: 'editorial-typography',
-    overlayTextTop: 'MAHAKARYA BORN',
+    overlayTextTop: 'KECAK DANCE',
     overlayTextMiddle: 'among legends',
     overlayTextBottom: 'AND GREAT masters',
-    description: 'Kemegahan desain panggung utama berhias kaligrafi raksasa, tata cahaya spektakuler, dan kubah megah sebagai poros pertunjukan.',
   },
   {
-    title: 'Sajak Selaras Nusantara',
+    title: 'Reog Ponorogo',
     brand: '@pg2.official',
     subtitle: 'Ponorogo',
-    category: 'Pentas' as const,
-    image: pgDance,
+    category: 'Tarian' as const,
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_0731.webp',
     likes: 5743,
-    isGrayscale: true,
-    description: 'Tari kolosal gabungan etnis Nusantara mengekspresikan kesatuan perjuangan santri dalam keberagaman budaya Indonesia.',
+    isGrayscale: false,
   },
   {
-    title: 'Harmoni Simfoni Gontor',
+    title: 'International Dance',
     brand: '@pg2.official',
-    subtitle: 'Indonesia',
-    category: 'Musik' as const,
-    image: pgMusic,
+    subtitle: 'International',
+    category: 'Modern' as const,
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_0492.webp',
     likes: 6101,
     overlayStyle: 'badge-headline',
     badge: 'Panggung Gembira 6101',
-    headline: 'TRIONFO AI PREMI SINTESA 2026!',
-    description: 'Kolaborasi orkestra klasik, hadrah modern, dan paduan suara membawakan melodi perjuangan menegakkan nilai pondok.',
   },
   {
-    title: 'Seni Kaligrafi Kontemporer',
+    title: 'Magic Show',
     brand: '@pg2.official',
     subtitle: 'Gontor 2',
     category: 'Seni' as const,
-    image: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&q=80&w=800',
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_0464.webp',
     likes: 3009,
-    description: "Goresan indah ayat suci Al-Qur'an berpadu dengan lukisan abstrak kontemporer yang dibuat langsung oleh tangan kreatif para santri.",
   },
   {
-    title: 'Teatrikal Sejarah Peradaban',
+    title: 'Band',
     brand: '@pg2.official',
     subtitle: 'Indonesia',
-    category: 'Pentas' as const,
-    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800',
+    category: 'Musik' as const,
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_0451%20(2).webp',
     likes: 5100,
     overlayStyle: 'editorial-typography',
     overlayTextTop: 'SENI DITEMPA',
     overlayTextMiddle: 'di bumi gontor',
     overlayTextBottom: 'UNTUK PERADABAN',
-    description: 'Kisah epik perjuangan pahlawan peradaban Islam dalam balutan drama teatrikal kolosal dengan properti panggung raksasa.',
   },
   {
-    title: 'Dinamika Laga Bela Diri',
+    title: 'Tari Tradisional',
     brand: '@pg2.official',
-    subtitle: 'Ponorogo',
+    subtitle: 'Nusantara',
     category: 'Pentas' as const,
-    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800',
+    image: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_0364.webp',
     likes: 3120,
-    isGrayscale: true,
-    description: 'Ketangkasan fisik berpadu dalam keindahan jurus pencak silat, senam formasi, lompat api, dan atraksi kekuatan santri.',
+    isGrayscale: false,
   },
   {
     title: 'Poster Panggung Gembira',
@@ -1468,8 +1461,8 @@ export default function App() {
             >
               <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-amber-500/10">
                 <img
-                  src={pgDance}
-                  alt="Sajak Selaras Nusantara"
+                  src={'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/IMG_0731.webp'}
+                  alt="Reog Ponorogo"
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"
@@ -1478,9 +1471,9 @@ export default function App() {
               </div>
 
               <div className="text-left pt-4 sm:pt-6 space-y-1 sm:space-y-2">
-                <span className="text-[8px] sm:text-[9px] font-mono tracking-widest text-amber-500/80">// SENI TARI KOLOSAL</span>
+                <span className="text-[8px] sm:text-[9px] font-mono tracking-widest text-amber-500/80">// SENI TARI TRADISIONAL</span>
                 <p className="text-[9px] sm:text-[11px] font-mono tracking-widest text-amber-300/80 leading-relaxed font-semibold uppercase line-clamp-3 sm:line-clamp-none">
-                  BESPOKE CHOREOGRAPHY CRAFTED EXCLUSIVELY FOR THIS GRAND NIGHT
+                  A MAJESTY DISPLAY OF REGAL GRANDEUR ON THE PANGGUNG GEMBIRA STAGE
                 </p>
               </div>
             </motion.div>
