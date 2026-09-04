@@ -1,123 +1,51 @@
 import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Compass } from 'lucide-react';
+import { Compass, ArrowUp } from 'lucide-react';
 
 export interface VenueZone {
   id: string;
   title: string;
-  category: 'panggung' | 'vip' | 'tamu' | 'santri' | 'bazzar';
-  bgClass: string;
-  textClass: string;
 }
 
 export const VENUE_ZONES: VenueZone[] = [
-  {
-    id: 'panggung',
-    title: 'Panggung Acara',
-    category: 'panggung',
-    bgClass: 'bg-[#ffff00] hover:bg-[#ffea00]',
-    textClass: 'text-zinc-950 font-bold',
-  },
-  {
-    id: 'ibu-guru-senior',
-    title: 'Ibu guru Senior',
-    category: 'vip',
-    bgClass: 'bg-[#70c96e] hover:bg-[#5ebf5c]',
-    textClass: 'text-zinc-950 font-semibold',
-  },
-  {
-    id: 'bapak-guru-senior',
-    title: 'Bapak guru Senior',
-    category: 'vip',
-    bgClass: 'bg-[#70c96e] hover:bg-[#5ebf5c]',
-    textClass: 'text-zinc-950 font-semibold',
-  },
-  {
-    id: 'asatidzah',
-    title: 'Asatidzah',
-    category: 'vip',
-    bgClass: 'bg-[#43a276] hover:bg-[#349568]',
-    textClass: 'text-white font-semibold',
-  },
-  {
-    id: 'asatidz',
-    title: 'Asatidz',
-    category: 'vip',
-    bgClass: 'bg-[#43a276] hover:bg-[#349568]',
-    textClass: 'text-white font-semibold',
-  },
-  {
-    id: 'tamu-putri',
-    title: 'Tamu Putri',
-    category: 'tamu',
-    bgClass: 'bg-[#f8b4bb] hover:bg-[#f69ba4]',
-    textClass: 'text-zinc-950 font-bold',
-  },
-  {
-    id: 'tamu-putra',
-    title: 'Tamu Putra',
-    category: 'tamu',
-    bgClass: 'bg-[#00a6f4] hover:bg-[#0092d6]',
-    textClass: 'text-white font-bold',
-  },
-  {
-    id: 'lorong-tengah',
-    title: 'Lorong Karpet Merah',
-    category: 'panggung',
-    bgClass: 'bg-[#983838] hover:bg-[#852b2b]',
-    textClass: 'text-white font-bold',
-  },
-  {
-    id: 'pimpinan',
-    title: 'Pimpinan',
-    category: 'vip',
-    bgClass: 'bg-[#844c35] hover:bg-[#723f2b]',
-    textClass: 'text-white font-bold',
-  },
-  {
-    id: 'foh',
-    title: 'FOH',
-    category: 'panggung',
-    bgClass: 'bg-[#cf6d3b] hover:bg-[#e07742]',
-    textClass: 'text-zinc-950 font-bold',
-  },
-  {
-    id: 'santri-kiri',
-    title: 'Santri Sektor Barat',
-    category: 'santri',
-    bgClass: 'bg-[#fef08a] hover:bg-[#fde047]',
-    textClass: 'text-zinc-950 font-bold',
-  },
-  {
-    id: 'santri-kanan',
-    title: 'Santri Sektor Timur',
-    category: 'santri',
-    bgClass: 'bg-[#fef08a] hover:bg-[#fde047]',
-    textClass: 'text-zinc-950 font-bold',
-  },
-  {
-    id: 'bazzar-cafe',
-    title: 'Bazzar Café Marhalah',
-    category: 'bazzar',
-    bgClass: 'bg-white hover:bg-zinc-100',
-    textClass: 'text-zinc-950 font-semibold',
-  },
-  {
-    id: 'bazzar-merchandise',
-    title: 'Bazzar Merchandise',
-    category: 'bazzar',
-    bgClass: 'bg-white hover:bg-zinc-100',
-    textClass: 'text-zinc-950 font-semibold',
-  },
+  { id: 'panggung', title: 'Panggung Acara' },
+  { id: 'tamu-vvip', title: 'Tamu VVIP' },
+  { id: 'ibu-guru-senior', title: 'Ibu Guru Senior' },
+  { id: 'bapak-guru-senior', title: 'Bapak Guru Senior' },
+  { id: 'ustadzaat', title: 'Ustadzaat' },
+  { id: 'asatidz', title: 'Asatidz' },
+  { id: 'tamu-putri', title: 'Tamu Putri (Selatan)' },
+  { id: 'tamu-putra', title: 'Tamu Putra (Utara)' },
+  { id: 'santri', title: 'Santri KMI Gontor 2' },
+  { id: 'andalusia', title: 'Gedung Andalusia' },
+  { id: 'santiniketan', title: 'Gedung Santiniketan (Selatan)' },
+  { id: 'al-azhar', title: 'Gedung Al Azhar (Selatan)' },
+  { id: 'syanggit', title: 'Gedung Syanggit (Utara)' },
+  { id: 'aligarh', title: 'Gedung Aligarh (Utara)' },
+  { id: 'jalan-kendaraan', title: 'Jalan Masuk Kendaraan (Selatan)' },
+  { id: 'gerbang', title: 'Gerbang Utama & Karpet Merah' },
+  { id: 'wc-putri', title: 'WC Putri (Selatan)' },
+  { id: 'wc-putra', title: 'WC Putra (Utara)' },
 ];
 
-type FilterCategory = 'all' | 'panggung' | 'vip' | 'tamu' | 'santri' | 'bazzar';
+const LEGEND_ITEMS = [
+  { id: 'panggung', label: 'Panggung Acara', dotColor: 'bg-[#220d04] border-amber-400' },
+  { id: 'tamu-vvip', label: 'Tamu VVIP', dotColor: 'bg-[#2b1206] border-amber-300' },
+  { id: 'ibu-guru-senior', label: 'Guru Senior & Asatidz', dotColor: 'bg-[#291106] border-[#b8860b]' },
+  { id: 'tamu-putri', label: 'Tamu Putri (Selatan)', dotColor: 'bg-[#291106] border-amber-400' },
+  { id: 'tamu-putra', label: 'Tamu Putra (Utara)', dotColor: 'bg-[#291106] border-amber-400' },
+  { id: 'santri', label: 'Santri KMI', dotColor: 'bg-[#240e05] border-amber-200' },
+  { id: 'santiniketan', label: 'Santiniketan & Al Azhar (Selatan)', dotColor: 'bg-[#240e05] border-[#c59d5f]' },
+  { id: 'syanggit', label: 'Syanggit & Aligarh (Utara)', dotColor: 'bg-[#240e05] border-[#c59d5f]' },
+  { id: 'andalusia', label: 'Gedung Andalusia', dotColor: 'bg-[#240e05] border-[#c59d5f]' },
+  { id: 'jalan-kendaraan', label: 'Jalan Masuk Kendaraan (Selatan)', dotColor: 'bg-[#eadcc2] border-[#3e1f10]' },
+  { id: 'gerbang', label: 'Gerbang & Karpet Merah', dotColor: 'bg-[#7a2218] border-amber-300' },
+  { id: 'wc-putri', label: 'Toilet / WC (Putri & Putra)', dotColor: 'bg-[#291106] border-amber-200' },
+];
 
 export const VenueMapSection: React.FC = () => {
   const [selectedZoneId, setSelectedZoneId] = useState<string>('panggung');
-  const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
 
-  // Scroll-driven background animations for venue map section (1 rotating wheel effect like in reviews section)
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress: mapScrollProgress } = useScroll({
     target: sectionRef,
@@ -127,60 +55,44 @@ export const VenueMapSection: React.FC = () => {
   const mapBgRotate = useTransform(mapScrollProgress, [0, 1], [-20, 80]);
   const mapBgY = useTransform(mapScrollProgress, [0, 1], [-50, 50]);
 
-  const filterTabs: { key: FilterCategory; label: string; count: number }[] = [
-    { key: 'all', label: 'Semua Area', count: VENUE_ZONES.length },
-    { key: 'panggung', label: 'Panggung & FOH', count: 3 },
-    { key: 'vip', label: 'VIP & Dewan Guru', count: 5 },
-    { key: 'tamu', label: 'Tamu Putra & Putri', count: 2 },
-    { key: 'santri', label: 'Santri KMI', count: 2 },
-    { key: 'bazzar', label: 'Bazzar & Merchandise', count: 2 },
-  ];
-
-  const isZoneFilteredIn = (zone: VenueZone) => {
-    if (activeFilter === 'all') return true;
-    if (activeFilter === 'panggung') return zone.category === 'panggung';
-    if (activeFilter === 'vip') return zone.category === 'vip';
-    if (activeFilter === 'tamu') return zone.category === 'tamu';
-    if (activeFilter === 'santri') return zone.category === 'santri';
-    if (activeFilter === 'bazzar') return zone.category === 'bazzar';
-    return true;
+  const getHighlightClass = (zoneId: string) => {
+    return selectedZoneId === zoneId
+      ? 'ring-2 sm:ring-4 ring-amber-400 border-amber-300 shadow-[0_0_25px_rgba(212,175,55,0.85)] scale-[1.03] z-20'
+      : 'border-[#c59d5f]/40 hover:border-amber-400/80 shadow-[0_2px_8px_rgba(0,0,0,0.3)]';
   };
 
   return (
     <section
       ref={sectionRef}
       id="venue-map-section"
-      className="relative z-20 w-full py-24 px-6 lg:px-16 bg-[#040404] text-amber-100 border-t border-b border-amber-500/20 overflow-hidden"
+      className="relative z-20 w-full py-24 px-4 sm:px-6 lg:px-16 bg-[#040404] text-amber-100 border-t border-b border-amber-500/20 overflow-hidden"
     >
-      {/* Top Hairline Glowing Divider matching other sections */}
+      {/* Top Hairline Glowing Divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent pointer-events-none" />
 
-      {/* Ambient background glow & single rotating wheel pattern (matching review section) */}
+      {/* Ambient Background Rotating Star */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
-        {/* Decorative Rotating Wheel / Star (1 Roda Saja) */}
         <motion.div
           style={{ rotate: mapBgRotate, y: mapBgY }}
           className="absolute -right-20 sm:-right-12 md:right-4 lg:right-16 top-4 w-64 h-64 sm:w-72 sm:h-72 md:w-88 md:h-88 border-2 border-amber-500/20 rounded-full flex items-center justify-center opacity-50 md:opacity-65 origin-center pointer-events-none"
         >
-          {/* Outer Star */}
           <div className="absolute w-60 h-60 sm:w-72 sm:h-72 border border-amber-500/20 rotate-30 flex items-center justify-center animate-spin-reverse-slow">
             <div className="w-60 h-60 sm:w-72 sm:h-72 border border-amber-500/20 rotate-60"></div>
             <div className="w-60 h-60 sm:w-72 sm:h-72 border border-amber-500/20 rotate-90"></div>
           </div>
-          {/* Inner Ring */}
           <div className="w-44 h-44 sm:w-56 sm:h-56 border border-dashed border-amber-500/25 rounded-full flex items-center justify-center animate-spin-slow">
             <div className="w-24 h-24 sm:w-32 sm:h-32 border border-amber-500/30 rounded-full"></div>
           </div>
         </motion.div>
       </div>
 
-      {/* Background Ornate Glows & Spotlights */}
+      {/* Radial Spotlights */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(212,175,55,0.06)_0%,_rgba(0,0,0,0)_70%)] blur-2xl pointer-events-none -z-10" />
       <div className="absolute top-10 left-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-amber-700/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
-        {/* Section Header matching the signature typography & animations of App.tsx */}
+      <div className="max-w-7xl mx-auto space-y-10 relative z-10">
+        {/* Section Header */}
         <motion.div
           className="text-center space-y-3 max-w-2xl mx-auto"
           initial="hidden"
@@ -189,9 +101,7 @@ export const VenueMapSection: React.FC = () => {
           variants={{
             hidden: {},
             visible: {
-              transition: {
-                staggerChildren: 0.15,
-              },
+              transition: { staggerChildren: 0.15 },
             },
           }}
         >
@@ -228,37 +138,8 @@ export const VenueMapSection: React.FC = () => {
           />
         </motion.div>
 
-        {/* Filter Pills with gold glow aesthetics */}
-        <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-          {filterTabs.map((tab) => {
-            const isActive = activeFilter === tab.key;
-            return (
-              <button
-                key={tab.key}
-                type="button"
-                onClick={() => setActiveFilter(tab.key)}
-                className={`px-4 py-2 rounded-full text-xs font-cinzel tracking-wider uppercase transition-all duration-300 flex items-center space-x-2 border cursor-pointer ${
-                  isActive
-                    ? 'bg-amber-500/20 border-amber-400 text-amber-200 font-bold shadow-[0_0_15px_rgba(212,175,55,0.25)] scale-105'
-                    : 'bg-[#050505]/80 text-zinc-400 border-amber-500/15 hover:border-amber-400/40 hover:text-amber-200'
-                }`}
-              >
-                <span>{tab.label}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                    isActive ? 'bg-amber-400 text-zinc-950 font-bold' : 'bg-amber-500/10 text-amber-400/80'
-                  }`}
-                >
-                  {tab.count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Main Centered Venue Layout */}
-        <div className="flex flex-col items-center justify-center max-w-2xl mx-auto">
-          {/* Master Plan Blueprint Card */}
+        {/* Main Venue Layout Container */}
+        <div className="flex flex-col items-center justify-center max-w-3xl mx-auto">
           <motion.div
             className="w-full flex flex-col items-center"
             initial={{ opacity: 0, y: 20 }}
@@ -266,517 +147,536 @@ export const VenueMapSection: React.FC = () => {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            {/* The Blueprint Card Container */}
-            <div
-              className="relative w-full max-w-[560px] bg-[#050505]/95 border border-amber-500/25 rounded-2xl p-4 sm:p-6 shadow-[0_15px_40px_rgba(0,0,0,0.8)] overflow-hidden"
-            >
-              {/* Subtle top inner gradient */}
-              <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-amber-500/5 to-transparent pointer-events-none" />
+            {/* Outer Royal Frame matching the Stage Layout Poster */}
+            <div className="relative w-full max-w-[640px] bg-[#1a0c06] border-2 border-amber-500/40 rounded-3xl p-3 sm:p-5 shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+              {/* Gold Corner Filigree Accents */}
+              <div className="absolute top-3 left-3 w-5 h-5 border-t-2 border-l-2 border-amber-400/60 rounded-tl pointer-events-none" />
+              <div className="absolute top-3 right-3 w-5 h-5 border-t-2 border-r-2 border-amber-400/60 rounded-tr pointer-events-none" />
+              <div className="absolute bottom-3 left-3 w-5 h-5 border-b-2 border-l-2 border-amber-400/60 rounded-bl pointer-events-none" />
+              <div className="absolute bottom-3 right-3 w-5 h-5 border-b-2 border-r-2 border-amber-400/60 rounded-br pointer-events-none" />
 
-              {/* Gold Filigree Corner Accents */}
-              <div className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2 border-amber-500/50 rounded-tl pointer-events-none" />
-              <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2 border-amber-500/50 rounded-tr pointer-events-none" />
-              <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2 border-amber-500/50 rounded-bl pointer-events-none" />
-              <div className="absolute bottom-2.5 right-2.5 w-4 h-4 border-b-2 border-r-2 border-amber-500/50 rounded-br pointer-events-none" />
-
-              {/* Header inside Map Frame */}
-              <div className="text-center mb-5 pb-3 border-b border-amber-500/15">
+              {/* Stage Layout Banner Header */}
+              <div className="text-center mb-3 sm:mb-4 pb-2 sm:pb-3 border-b border-amber-500/20">
                 <div className="flex items-center justify-center space-x-2 text-[10px] sm:text-xs font-cinzel tracking-[0.25em] text-amber-400 uppercase">
                   <Compass className="w-3.5 h-3.5 text-amber-400" />
-                  <span>MASTER PLAN • PANGGUNG GEMBIRA 6101</span>
+                  <span>MASTER PLAN • PANGGUNG GEMBIRA</span>
                 </div>
-                <h4 className="font-amagro text-xl sm:text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#fef4db] via-[#d4af37] to-[#8a6f27] uppercase mt-1">
-                  DENAH ACARA
+                <h4 className="font-amagro text-xl sm:text-2xl font-bold tracking-[0.15em] text-[#f4ebd9] uppercase mt-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                  STAGE LAYOUT
                 </h4>
-                <p className="text-[10px] text-zinc-400 font-mono tracking-widest uppercase mt-0.5">
+                <p className="text-[10px] text-amber-300/70 font-mono tracking-widest uppercase">
                   Lapangan Sintesa • Gontor Kampus 2
                 </p>
               </div>
 
-              {/* 1. TOP: Panggung Acara (Yellow Box) */}
-              <div className="w-full flex justify-center mb-3">
-                {(() => {
-                  const panggung = VENUE_ZONES.find((z) => z.id === 'panggung')!;
-                  const isSelected = selectedZoneId === 'panggung';
-                  const isFiltered = isZoneFilteredIn(panggung);
-                  return (
+              {/* Arena Ground Floor */}
+              <div className="relative w-full bg-[#f5ecda] rounded-2xl p-2 sm:p-3.5 border-2 border-[#6c3919]/50 shadow-inner flex flex-col items-center select-none overflow-hidden text-[#240e05]">
+                {/* 1. TOP CENTER: PANGGUNG ACARA */}
+                <div className="w-full flex justify-center mb-2 sm:mb-3 relative z-10">
+                  <div className="relative flex items-center justify-center">
+                    {/* Stepped Left Wing */}
+                    <div className="hidden sm:flex flex-col items-end mr-1 space-y-1 opacity-90">
+                      <div className="w-4 h-2 bg-[#3a1a0b] rounded-l-sm border border-[#a47b36]/60"></div>
+                      <div className="w-6 h-4 bg-[#3a1a0b] rounded-l-sm border border-[#a47b36]/60"></div>
+                      <div className="w-8 h-8 bg-[#3a1a0b] rounded-l-sm border border-[#a47b36]/60 flex items-center justify-center text-[7px] font-bold text-amber-200">
+                        ≡
+                      </div>
+                    </div>
+
+                    {/* Primary Stage Box */}
                     <motion.button
                       type="button"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSelectedZoneId('panggung')}
-                      className={`w-[86%] sm:w-[78%] py-5 sm:py-7 px-4 rounded-lg border-2 text-center transition-all duration-300 cursor-pointer relative overflow-hidden ${
-                        panggung.bgClass
-                      } ${panggung.textClass} ${
-                        isSelected
-                          ? 'ring-4 ring-amber-300 border-white shadow-[0_0_35px_rgba(255,255,0,0.6)] scale-[1.03] z-20'
-                          : 'border-yellow-400 shadow-[0_4px_15px_rgba(0,0,0,0.4)]'
-                      } ${!isFiltered ? 'opacity-30 grayscale-[50%]' : 'opacity-100'}`}
+                      className={`relative px-6 sm:px-12 py-3.5 sm:py-5 rounded-md border-2 bg-[#220d04] hover:bg-[#2e1307] text-[#fbf7ee] font-bold text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                        'panggung'
+                      )}`}
                     >
-                      <div className="space-y-0.5">
-                        <div className="text-xl sm:text-3xl font-amagro font-bold tracking-wide uppercase leading-tight">
-                          Panggung
-                        </div>
-                        <div className="text-xl sm:text-3xl font-amagro font-bold tracking-wide uppercase leading-tight">
-                          Acara
-                        </div>
-                        <p className="text-[10px] sm:text-xs text-zinc-900 font-semibold tracking-wider pt-1 opacity-90">
-                          (The Absolute Spectacle)
-                        </p>
+                      <div className="font-serif text-lg sm:text-2xl font-extrabold tracking-wider uppercase leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                        Panggung
+                      </div>
+                      <div className="font-serif text-lg sm:text-2xl font-extrabold tracking-wider uppercase leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                        Acara
                       </div>
                     </motion.button>
-                  );
-                })()}
-              </div>
 
-              {/* 2. MIDDLE AREA: Left (Putri) vs Right (Putra) separated by Lorong Karpet Merah */}
-              <div className="w-full flex justify-center items-stretch gap-1.5 sm:gap-2.5 mb-3">
-                {/* LEFT COLUMN: Ibu Guru Senior -> Asatidzah -> Tamu Putri */}
-                <div className="w-[42%] sm:w-[40%] flex flex-col gap-1.5 sm:gap-2">
-                  {/* Ibu Guru Senior */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'ibu-guru-senior')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full py-2.5 sm:py-3.5 px-2 rounded-md border text-center transition-all duration-300 cursor-pointer ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-2 ring-white border-amber-400 shadow-[0_0_20px_rgba(112,201,110,0.7)] scale-[1.02] z-20 font-bold'
-                            : 'border-emerald-600/60 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                      >
-                        <span className="text-xs sm:text-sm font-bold leading-tight block">
-                          Ibu guru
-                        </span>
-                        <span className="text-xs sm:text-sm font-bold leading-tight block">
-                          Senior
-                        </span>
-                      </motion.button>
-                    );
-                  })()}
-
-                  {/* Asatidzah */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'asatidzah')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full py-2.5 sm:py-3 px-2 rounded-md border text-center transition-all duration-300 cursor-pointer ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-2 ring-white border-amber-400 shadow-[0_0_20px_rgba(67,162,118,0.7)] scale-[1.02] z-20 font-bold'
-                            : 'border-teal-700/60 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                      >
-                        <span className="text-xs sm:text-sm font-bold leading-tight block">
-                          Asatidzah
-                        </span>
-                      </motion.button>
-                    );
-                  })()}
-
-                  {/* Tamu Putri (Tall Pink Box) */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'tamu-putri')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full h-36 sm:h-44 rounded-md border text-center flex flex-col items-center justify-center p-2 transition-all duration-300 cursor-pointer relative ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-4 ring-white border-pink-400 shadow-[0_0_25px_rgba(248,180,187,0.7)] scale-[1.02] z-20'
-                            : 'border-pink-300/70 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                      >
-                        <span className="text-xs sm:text-base font-bold leading-tight">
-                          Tamu Putri
-                        </span>
-                        <span className="text-[9px] sm:text-[10px] text-zinc-900/80 mt-1 hidden sm:block">
-                          (Wali Santri & Undangan)
-                        </span>
-                      </motion.button>
-                    );
-                  })()}
+                    {/* Stepped Right Wing */}
+                    <div className="hidden sm:flex flex-col items-start ml-1 space-y-1 opacity-90">
+                      <div className="w-4 h-2 bg-[#3a1a0b] rounded-r-sm border border-[#a47b36]/60"></div>
+                      <div className="w-6 h-4 bg-[#3a1a0b] rounded-r-sm border border-[#a47b36]/60"></div>
+                      <div className="w-8 h-8 bg-[#3a1a0b] rounded-r-sm border border-[#a47b36]/60 flex items-center justify-center text-[7px] font-bold text-amber-200">
+                        ≡
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                {/* CENTRAL CORRIDOR (Red Strip / Lorong Karpet Merah) */}
-                {(() => {
-                  const zone = VENUE_ZONES.find((z) => z.id === 'lorong-tengah')!;
-                  const isSelected = selectedZoneId === zone.id;
-                  const isFiltered = isZoneFilteredIn(zone);
-                  return (
-                    <motion.button
-                      type="button"
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedZoneId(zone.id)}
-                      title="Lorong Karpet Merah Sentral"
-                      className={`w-5 sm:w-7 rounded-md border flex items-center justify-center cursor-pointer transition-all duration-300 ${
-                        zone.bgClass
-                      } ${
-                        isSelected
-                          ? 'ring-2 ring-white border-amber-300 shadow-[0_0_20px_rgba(152,56,56,0.9)] scale-[1.05] z-20'
-                          : 'border-red-900/70 shadow'
-                      } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                    >
-                      <span className="rotate-90 whitespace-nowrap text-[8px] sm:text-[10px] font-bold text-white tracking-widest uppercase select-none">
-                        LORONG
-                      </span>
-                    </motion.button>
-                  );
-                })()}
-
-                {/* RIGHT COLUMN: Bapak Guru Senior -> Asatidz -> Tamu Putra */}
-                <div className="w-[42%] sm:w-[40%] flex flex-col gap-1.5 sm:gap-2">
-                  {/* Bapak Guru Senior */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'bapak-guru-senior')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full py-2.5 sm:py-3.5 px-2 rounded-md border text-center transition-all duration-300 cursor-pointer ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-2 ring-white border-amber-400 shadow-[0_0_20px_rgba(112,201,110,0.7)] scale-[1.02] z-20 font-bold'
-                            : 'border-emerald-600/60 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                      >
-                        <span className="text-xs sm:text-sm font-bold leading-tight block">
-                          Bapak guru
-                        </span>
-                        <span className="text-xs sm:text-sm font-bold leading-tight block">
-                          Senior
-                        </span>
-                      </motion.button>
-                    );
-                  })()}
-
-                  {/* Asatidz */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'asatidz')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full py-2.5 sm:py-3 px-2 rounded-md border text-center transition-all duration-300 cursor-pointer ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-2 ring-white border-amber-400 shadow-[0_0_20px_rgba(67,162,118,0.7)] scale-[1.02] z-20 font-bold'
-                            : 'border-teal-700/60 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                      >
-                        <span className="text-xs sm:text-sm font-bold leading-tight block">
-                          Asatidz
-                        </span>
-                      </motion.button>
-                    );
-                  })()}
-
-                  {/* Tamu Putra (Tall Sky Blue Box) */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'tamu-putra')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full h-36 sm:h-44 rounded-md border text-center flex flex-col items-center justify-center p-2 transition-all duration-300 cursor-pointer relative ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-4 ring-white border-cyan-300 shadow-[0_0_25px_rgba(0,166,244,0.7)] scale-[1.02] z-20'
-                            : 'border-sky-300/70 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                      >
-                        <span className="text-xs sm:text-base font-bold leading-tight">
-                          Tamu Putra
-                        </span>
-                        <span className="text-[9px] sm:text-[10px] text-white/90 mt-1 hidden sm:block">
-                          (Wali Santri & Undangan)
-                        </span>
-                      </motion.button>
-                    );
-                  })()}
+                {/* Planter Strip under stage */}
+                <div className="w-[75%] sm:w-[65%] h-2.5 sm:h-3 rounded-full bg-gradient-to-r from-[#214b1c] via-[#2f6628] to-[#214b1c] border border-[#a47b36]/70 shadow-sm flex items-center justify-around px-2 mb-2 sm:mb-3">
+                  <span className="text-[7px] text-amber-300">✿</span>
+                  <span className="text-[6px] text-red-300">●</span>
+                  <span className="text-[7px] text-amber-300">✿</span>
+                  <span className="text-[6px] text-yellow-300">●</span>
+                  <span className="text-[7px] text-amber-300">✿</span>
                 </div>
-              </div>
 
-              {/* 3. LOWER AREA: Santri (Left) - [Pimpinan & FOH (Center)] - Santri (Right) */}
-              <div className="w-full flex justify-center items-stretch gap-2 sm:gap-3 mb-3">
-                {/* Left Santri Block */}
-                {(() => {
-                  const zone = VENUE_ZONES.find((z) => z.id === 'santri-kiri')!;
-                  const isSelected = selectedZoneId === zone.id;
-                  const isFiltered = isZoneFilteredIn(zone);
-                  return (
+                {/* 2. MIDDLE COMPLEX (Sayap Selatan + Tengah + Sayap Utara) */}
+                <div className="w-full flex justify-between items-stretch gap-1 sm:gap-2 mb-2 sm:mb-3">
+                  {/* SAYAP SELATAN (LEFT): Jalan Masuk Kendaraan + WC Putri & Santiniketan / Al Azhar */}
+                  <div className="flex items-stretch gap-1 shrink-0">
+                    {/* Jalan Masuk Kendaraan Strip */}
                     <motion.button
                       type="button"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedZoneId(zone.id)}
-                      className={`w-[32%] sm:w-[30%] h-28 sm:h-32 rounded-md border flex flex-col items-center justify-center p-1.5 transition-all duration-300 cursor-pointer ${
-                        zone.bgClass
-                      } ${zone.textClass} ${
-                        isSelected
-                          ? 'ring-4 ring-white border-amber-400 shadow-[0_0_20px_rgba(254,240,138,0.7)] scale-[1.02] z-20'
-                          : 'border-yellow-300/70 shadow'
-                      } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
+                      onClick={() => setSelectedZoneId('jalan-kendaraan')}
+                      title="Jalan Masuk Kendaraan (Sektor Selatan)"
+                      className={`w-6 sm:w-8 rounded-md border bg-[#eadcc2] hover:bg-[#decbb0] text-[#381c10] font-bold flex flex-col items-center justify-between py-2 transition-all duration-300 cursor-pointer ${getHighlightClass(
+                        'jalan-kendaraan'
+                      )}`}
                     >
-                      <span className="text-xs sm:text-base font-bold uppercase">Santri</span>
-                      <span className="text-[8px] sm:text-[9px] text-zinc-800 font-medium">
-                        (Sektor Barat)
-                      </span>
+                      <ArrowUp className="w-3.5 h-3.5 text-[#422212] animate-bounce" />
+                      <div className="[writing-mode:vertical-rl] rotate-180 text-[8px] sm:text-[10px] font-bold tracking-widest uppercase text-[#3e1f10] whitespace-nowrap">
+                        Jalan Masuk Kendaraan
+                      </div>
+                      <ArrowUp className="w-3.5 h-3.5 text-[#422212]" />
                     </motion.button>
-                  );
-                })()}
 
-                {/* Center Column: Pimpinan (Top) & FOH (Bottom) */}
-                <div className="w-[26%] sm:w-[28%] flex flex-col justify-between gap-1.5">
-                  {/* Pimpinan Block */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'pimpinan')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
+                    {/* Sektor Selatan: WC Putri & Santiniketan (Atas) / Lorong / WC Putri & Al Azhar (Bawah) */}
+                    <div className="w-16 sm:w-24 flex flex-col justify-between gap-1 text-[8px] sm:text-[10px]">
+                      {/* Atas: WC Putri + Santiniketan */}
+                      <div className="flex gap-1 h-[48%]">
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('wc-putri')}
+                          className={`w-1/2 rounded-md border bg-[#291106] hover:bg-[#381808] text-[#fbf7ee] flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'wc-putri'
+                          )}`}
+                        >
+                          <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-amber-100">
+                            WC PUTRI
+                          </div>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('santiniketan')}
+                          className={`w-1/2 rounded-md border bg-[#240e05] hover:bg-[#331407] text-[#fbf7ee] flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'santiniketan'
+                          )}`}
+                        >
+                          <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest text-[#fbf7ee]">
+                            SANTINIKETAN
+                          </div>
+                        </motion.button>
+                      </div>
+
+                      {/* Lorong Walkway */}
+                      <div className="w-full text-center py-0.5 bg-[#e0d0b6] border border-[#b89e7c] rounded text-[7px] sm:text-[8px] font-mono font-bold uppercase text-[#472615]">
+                        Lorong
+                      </div>
+
+                      {/* Bawah: WC Putri + Al Azhar */}
+                      <div className="flex gap-1 h-[48%]">
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('wc-putri')}
+                          className={`w-1/2 rounded-md border bg-[#291106] hover:bg-[#381808] text-[#fbf7ee] flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'wc-putri'
+                          )}`}
+                        >
+                          <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-amber-100">
+                            WC PUTRI
+                          </div>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('al-azhar')}
+                          className={`w-1/2 rounded-md border bg-[#240e05] hover:bg-[#331407] text-[#fbf7ee] flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'al-azhar'
+                          )}`}
+                        >
+                          <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest text-[#fbf7ee]">
+                            AL AZHAR
+                          </div>
+                        </motion.button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CENTER COURTYARD: VIP/Guru/Tamu (Atas) + VVIP/Santri/Karpet (Bawah) */}
+                  <div className="flex-1 flex flex-col gap-1 sm:gap-2 px-1">
+                    {/* Atas: Sektor Selatan (Putri) vs Sektor Utara (Putra) */}
+                    <div className="w-full flex gap-1 sm:gap-2">
+                      {/* Kolom Selatan (Putri) */}
+                      <div className="w-1/2 flex flex-col gap-1 sm:gap-1.5">
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('ibu-guru-senior')}
+                          className={`w-full py-1 sm:py-1.5 px-1 rounded-md border bg-[#291106] hover:bg-[#361708] text-[#fbf7ee] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'ibu-guru-senior'
+                          )}`}
+                        >
+                          <span className="text-[8px] sm:text-[11px] font-bold leading-tight block">
+                            Ibu Guru Senior
+                          </span>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('ustadzaat')}
+                          className={`w-full py-1 sm:py-1.5 px-1 rounded-md border bg-[#291106] hover:bg-[#361708] text-[#fbf7ee] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'ustadzaat'
+                          )}`}
+                        >
+                          <span className="text-[8px] sm:text-[11px] font-bold leading-tight block">
+                            Ustadzaat
+                          </span>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('tamu-putri')}
+                          className={`w-full py-2.5 sm:py-4 px-1 rounded-md border bg-[#291106] hover:bg-[#361708] text-amber-100 font-extrabold text-center flex items-center justify-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'tamu-putri'
+                          )}`}
+                        >
+                          <span className="text-[9px] sm:text-xs uppercase leading-tight block">
+                            Tamu Putri
+                          </span>
+                        </motion.button>
+                      </div>
+
+                      {/* Kolom Utara (Putra) */}
+                      <div className="w-1/2 flex flex-col gap-1 sm:gap-1.5">
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('bapak-guru-senior')}
+                          className={`w-full py-1 sm:py-1.5 px-1 rounded-md border bg-[#291106] hover:bg-[#361708] text-[#fbf7ee] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'bapak-guru-senior'
+                          )}`}
+                        >
+                          <span className="text-[8px] sm:text-[11px] font-bold leading-tight block">
+                            Bapak Guru Senior
+                          </span>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('asatidz')}
+                          className={`w-full py-1 sm:py-1.5 px-1 rounded-md border bg-[#291106] hover:bg-[#361708] text-[#fbf7ee] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'asatidz'
+                          )}`}
+                        >
+                          <span className="text-[8px] sm:text-[11px] font-bold leading-tight block">
+                            Asatidz
+                          </span>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('tamu-putra')}
+                          className={`w-full py-2.5 sm:py-4 px-1 rounded-md border bg-[#291106] hover:bg-[#361708] text-amber-100 font-extrabold text-center flex items-center justify-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'tamu-putra'
+                          )}`}
+                        >
+                          <span className="text-[9px] sm:text-xs uppercase leading-tight block">
+                            Tamu Putra
+                          </span>
+                        </motion.button>
+                      </div>
+                    </div>
+
+                    {/* Bawah: Tamu VVIP + Karpet Merah + Blok Santri */}
+                    <div className="w-full flex flex-col items-center relative pt-1">
+                      {/* Tamu VVIP Pavilion */}
                       <motion.button
                         type="button"
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full py-2.5 sm:py-3 px-1 rounded-md border flex flex-col items-center justify-center text-center transition-all duration-300 cursor-pointer ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-2 ring-white border-amber-300 shadow-[0_0_20px_rgba(132,76,53,0.8)] scale-[1.03] z-20'
-                            : 'border-amber-700/70 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
+                        onClick={() => setSelectedZoneId('tamu-vvip')}
+                        className={`w-[45%] sm:w-[40%] py-1.5 sm:py-2 px-2 rounded-t-md border-2 bg-[#2b1206] hover:bg-[#381808] text-center transition-all duration-300 cursor-pointer z-20 ${getHighlightClass(
+                          'tamu-vvip'
+                        )}`}
                       >
-                        <span className="text-[10px] sm:text-xs font-bold leading-tight">
-                          Pimpinan
+                        <span className="text-[8px] sm:text-[10px] font-bold uppercase block leading-tight text-amber-200">
+                          Tamu
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider block leading-tight text-amber-300">
+                          VVIP
                         </span>
                       </motion.button>
-                    );
-                  })()}
 
-                  {/* FOH Block */}
-                  {(() => {
-                    const zone = VENUE_ZONES.find((z) => z.id === 'foh')!;
-                    const isSelected = selectedZoneId === zone.id;
-                    const isFiltered = isZoneFilteredIn(zone);
-                    return (
+                      {/* Walkway & Santri */}
+                      <div className="w-full flex items-stretch justify-center">
+                        {/* Santri Sisi Selatan */}
+                        <div className="flex-1 flex flex-col justify-between gap-1 sm:gap-1.5 pr-1">
+                          <motion.button
+                            type="button"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setSelectedZoneId('santri')}
+                            className={`w-full py-2 sm:py-2.5 rounded-md border bg-[#240e05] hover:bg-[#331407] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                              'santri'
+                            )}`}
+                          >
+                            <span className="text-[8px] sm:text-[10px] font-bold uppercase text-[#fbf7ee]">
+                              Santri
+                            </span>
+                          </motion.button>
+                          <motion.button
+                            type="button"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setSelectedZoneId('santri')}
+                            className={`w-full py-2 sm:py-2.5 rounded-md border bg-[#240e05] hover:bg-[#331407] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                              'santri'
+                            )}`}
+                          >
+                            <span className="text-[8px] sm:text-[10px] font-bold uppercase text-[#fbf7ee]">
+                              Santri
+                            </span>
+                          </motion.button>
+                        </div>
+
+                        {/* Karpet Merah Sentral */}
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedZoneId('gerbang')}
+                          title="Karpet Merah Sentral"
+                          className={`w-7 sm:w-10 rounded-b-md border-x-2 border-b-2 bg-[#7a2218] hover:bg-[#8d2a1e] flex flex-col items-center justify-between py-1 transition-all duration-300 cursor-pointer ${getHighlightClass(
+                            'gerbang'
+                          )}`}
+                        >
+                          <div className="text-[6px] sm:text-[7px] text-amber-200 uppercase font-mono tracking-tighter">
+                            ▲
+                          </div>
+                          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full border border-amber-300 bg-amber-400/80 my-0.5"></div>
+                          <ArrowUp className="w-3.5 h-3.5 text-white animate-pulse" />
+                        </motion.button>
+
+                        {/* Santri Sisi Utara */}
+                        <div className="flex-1 flex flex-col justify-between gap-1 sm:gap-1.5 pl-1">
+                          <motion.button
+                            type="button"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setSelectedZoneId('santri')}
+                            className={`w-full py-2 sm:py-2.5 rounded-md border bg-[#240e05] hover:bg-[#331407] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                              'santri'
+                            )}`}
+                          >
+                            <span className="text-[8px] sm:text-[10px] font-bold uppercase text-[#fbf7ee]">
+                              Santri
+                            </span>
+                          </motion.button>
+                          <motion.button
+                            type="button"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setSelectedZoneId('santri')}
+                            className={`w-full py-2 sm:py-2.5 rounded-md border bg-[#240e05] hover:bg-[#331407] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                              'santri'
+                            )}`}
+                          >
+                            <span className="text-[8px] sm:text-[10px] font-bold uppercase text-[#fbf7ee]">
+                              Santri
+                            </span>
+                          </motion.button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SAYAP UTARA (RIGHT): Syanggit & WC Putra (Atas) / Lorong / Aligarh & WC Putra (Bawah) */}
+                  <div className="w-16 sm:w-24 flex flex-col justify-between gap-1 text-[8px] sm:text-[10px] shrink-0">
+                    {/* Atas: Syanggit + WC Putra */}
+                    <div className="flex gap-1 h-[48%]">
                       <motion.button
                         type="button"
-                        whileHover={{ scale: 1.03 }}
+                        whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedZoneId(zone.id)}
-                        className={`w-full py-2 sm:py-2.5 px-1 rounded-md border flex flex-col items-center justify-center text-center transition-all duration-300 cursor-pointer ${
-                          zone.bgClass
-                        } ${zone.textClass} ${
-                          isSelected
-                            ? 'ring-2 ring-white border-amber-200 shadow-[0_0_20px_rgba(207,109,59,0.8)] scale-[1.03] z-20'
-                            : 'border-orange-600/70 shadow'
-                        } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
+                        onClick={() => setSelectedZoneId('syanggit')}
+                        className={`w-1/2 rounded-md border bg-[#240e05] hover:bg-[#331407] text-[#fbf7ee] flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                          'syanggit'
+                        )}`}
                       >
-                        <span className="text-[10px] sm:text-xs font-extrabold uppercase">FOH</span>
+                        <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest text-[#fbf7ee]">
+                          SYANGGIT
+                        </div>
                       </motion.button>
-                    );
-                  })()}
+
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setSelectedZoneId('wc-putra')}
+                        className={`w-1/2 rounded-md border bg-[#291106] hover:bg-[#381808] text-amber-100 flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                          'wc-putra'
+                        )}`}
+                      >
+                        <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-amber-100">
+                          WC PUTRA
+                        </div>
+                      </motion.button>
+                    </div>
+
+                    {/* Lorong Walkway */}
+                    <div className="w-full text-center py-0.5 bg-[#e0d0b6] border border-[#b89e7c] rounded text-[7px] sm:text-[8px] font-mono font-bold uppercase text-[#472615]">
+                      Lorong
+                    </div>
+
+                    {/* Bawah: Aligarh + WC Putra */}
+                    <div className="flex gap-1 h-[48%]">
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setSelectedZoneId('aligarh')}
+                        className={`w-1/2 rounded-md border bg-[#240e05] hover:bg-[#331407] text-[#fbf7ee] flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                          'aligarh'
+                        )}`}
+                      >
+                        <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest text-[#fbf7ee]">
+                          ALIGARH
+                        </div>
+                      </motion.button>
+
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setSelectedZoneId('wc-putra')}
+                        className={`w-1/2 rounded-md border bg-[#291106] hover:bg-[#381808] text-amber-100 flex flex-col items-center justify-center p-0.5 text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                          'wc-putra'
+                        )}`}
+                      >
+                        <div className="[writing-mode:vertical-rl] text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-amber-100">
+                          WC PUTRA
+                        </div>
+                      </motion.button>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Right Santri Block */}
-                {(() => {
-                  const zone = VENUE_ZONES.find((z) => z.id === 'santri-kanan')!;
-                  const isSelected = selectedZoneId === zone.id;
-                  const isFiltered = isZoneFilteredIn(zone);
-                  return (
-                    <motion.button
-                      type="button"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedZoneId(zone.id)}
-                      className={`w-[32%] sm:w-[30%] h-28 sm:h-32 rounded-md border flex flex-col items-center justify-center p-1.5 transition-all duration-300 cursor-pointer ${
-                        zone.bgClass
-                      } ${zone.textClass} ${
-                        isSelected
-                          ? 'ring-4 ring-white border-amber-400 shadow-[0_0_20px_rgba(254,240,138,0.7)] scale-[1.02] z-20'
-                          : 'border-yellow-300/70 shadow'
-                      } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                    >
-                      <span className="text-xs sm:text-base font-bold uppercase">Santri</span>
-                      <span className="text-[8px] sm:text-[9px] text-zinc-800 font-medium">
-                        (Sektor Timur)
-                      </span>
-                    </motion.button>
-                  );
-                })()}
-              </div>
+                {/* 3. SEKTOR SELATAN BAWAH: ANDALUSIA & GERBANG */}
+                <div className="w-full flex items-center justify-between gap-1 sm:gap-2 mb-1.5">
+                  {/* Andalusia (Sayap Selatan) */}
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setSelectedZoneId('andalusia')}
+                    className={`flex-1 py-1.5 sm:py-2.5 px-2 rounded-md border bg-[#240e05] hover:bg-[#331407] text-[#fbf7ee] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                      'andalusia'
+                    )}`}
+                  >
+                    <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-widest text-[#fbf7ee] block">
+                      ANDALUSIA
+                    </span>
+                  </motion.button>
 
-              {/* 4. BOTTOM ROW: Bazzar Café Marhalah (Left) & Bazzar Merchandise (Right) */}
-              <div className="w-full flex justify-between px-2 sm:px-4 pt-1">
-                {/* Bazzar Cafe Marhalah */}
-                {(() => {
-                  const zone = VENUE_ZONES.find((z) => z.id === 'bazzar-cafe')!;
-                  const isSelected = selectedZoneId === zone.id;
-                  const isFiltered = isZoneFilteredIn(zone);
-                  return (
-                    <motion.button
-                      type="button"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedZoneId(zone.id)}
-                      className={`w-[45%] sm:w-[44%] py-3 sm:py-3.5 px-2 rounded-md border text-center transition-all duration-300 cursor-pointer ${
-                        zone.bgClass
-                      } ${zone.textClass} ${
-                        isSelected
-                          ? 'ring-4 ring-amber-400 border-zinc-900 shadow-[0_0_20px_rgba(255,255,255,0.8)] scale-[1.02] z-20'
-                          : 'border-zinc-300 shadow'
-                      } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                    >
-                      <span className="text-[10px] sm:text-xs font-bold leading-tight block">
-                        Bazzar
-                      </span>
-                      <span className="text-[10px] sm:text-xs font-bold leading-tight block">
-                        Café Marhalah
-                      </span>
-                    </motion.button>
-                  );
-                })()}
+                  {/* Indikator Pintu Masuk */}
+                  <div className="w-7 sm:w-10 flex flex-col items-center justify-center">
+                    <div className="w-5 h-5 rounded-full bg-white border-2 border-amber-600 flex items-center justify-center shadow-sm">
+                      <ArrowUp className="w-3.5 h-3.5 text-[#7a2218] stroke-[3]" />
+                    </div>
+                  </div>
 
-                {/* Bazzar Merchandise */}
-                {(() => {
-                  const zone = VENUE_ZONES.find((z) => z.id === 'bazzar-merchandise')!;
-                  const isSelected = selectedZoneId === zone.id;
-                  const isFiltered = isZoneFilteredIn(zone);
-                  return (
-                    <motion.button
-                      type="button"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedZoneId(zone.id)}
-                      className={`w-[45%] sm:w-[44%] py-3 sm:py-3.5 px-2 rounded-md border text-center transition-all duration-300 cursor-pointer ${
-                        zone.bgClass
-                      } ${zone.textClass} ${
-                        isSelected
-                          ? 'ring-4 ring-amber-400 border-zinc-900 shadow-[0_0_20px_rgba(255,255,255,0.8)] scale-[1.02] z-20'
-                          : 'border-zinc-300 shadow'
-                      } ${!isFiltered ? 'opacity-30' : 'opacity-100'}`}
-                    >
-                      <span className="text-[10px] sm:text-xs font-bold leading-tight block">
-                        Bazzar
-                      </span>
-                      <span className="text-[10px] sm:text-xs font-bold leading-tight block">
-                        Merchandise
-                      </span>
-                    </motion.button>
-                  );
-                })()}
-              </div>
+                  {/* Andalusia (Sayap Utara) */}
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setSelectedZoneId('andalusia')}
+                    className={`flex-1 py-1.5 sm:py-2.5 px-2 rounded-md border bg-[#240e05] hover:bg-[#331407] text-[#fbf7ee] text-center transition-all duration-300 cursor-pointer ${getHighlightClass(
+                      'andalusia'
+                    )}`}
+                  >
+                    <span className="text-[9px] sm:text-xs font-extrabold uppercase tracking-widest text-[#fbf7ee] block">
+                      ANDALUSIA
+                    </span>
+                  </motion.button>
+                </div>
 
-              {/* Bottom Orientation Guidance */}
-              <div className="mt-5 pt-3 border-t border-amber-500/15 flex items-center justify-between text-[9px] sm:text-[10px] text-amber-400 font-mono">
-                <span className="flex items-center space-x-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-                  <span>Sektor Barat (Akses Putri)</span>
-                </span>
-                <span className="text-zinc-600 hidden sm:inline">|</span>
-                <span className="flex items-center space-x-1">
-                  <span>Sektor Timur (Akses Putra)</span>
-                  <span className="w-2 h-2 rounded-full bg-sky-500 inline-block" />
-                </span>
+                {/* Taman Bunga & Gerbang */}
+                <div className="w-full flex items-center justify-between gap-1 sm:gap-2">
+                  <div className="flex-1 h-2 sm:h-2.5 rounded-full bg-gradient-to-r from-[#214b1c] via-[#2f6628] to-[#214b1c] border border-[#a47b36]/70 shadow-sm flex items-center justify-around px-2">
+                    <span className="text-[6px] text-amber-300">✿</span>
+                    <span className="text-[5px] text-red-300">●</span>
+                    <span className="text-[6px] text-amber-300">✿</span>
+                  </div>
+
+                  {/* Gerbang (Gate Entrance) */}
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setSelectedZoneId('gerbang')}
+                    className={`px-3 py-1 rounded-t-md border-t-2 border-x-2 bg-[#331508] border-amber-500/70 text-center cursor-pointer transition-all duration-300 shadow-md ${getHighlightClass(
+                      'gerbang'
+                    )}`}
+                  >
+                    <div className="text-[9px] sm:text-xs font-cinzel font-bold text-amber-200 tracking-wider uppercase">
+                      Gerbang
+                    </div>
+                  </motion.button>
+
+                  <div className="flex-1 h-2 sm:h-2.5 rounded-full bg-gradient-to-r from-[#214b1c] via-[#2f6628] to-[#214b1c] border border-[#a47b36]/70 shadow-sm flex items-center justify-around px-2">
+                    <span className="text-[6px] text-amber-300">✿</span>
+                    <span className="text-[5px] text-red-300">●</span>
+                    <span className="text-[6px] text-amber-300">✿</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Quick Legend Guide under the Blueprint */}
-            <div className="w-full max-w-[560px] bg-[#050505]/90 border border-amber-500/15 rounded-2xl p-4 sm:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-3 mt-5">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400/90 font-semibold block text-center sm:text-left">
-                PANDUAN WARNA SEKTOR:
-              </span>
+            <div className="w-full max-w-[640px] bg-[#050505]/90 border border-amber-500/15 rounded-2xl p-4 sm:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] space-y-3 mt-4">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400/90 font-semibold block">
+                  PANDUAN CEPAT ZONA ACARA:
+                </span>
+                <span className="text-[10px] font-mono text-zinc-500 hidden sm:inline">
+                  Pilih untuk menyorot denah
+                </span>
+              </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] text-gray-300">
-                <button
-                  type="button"
-                  onClick={() => setSelectedZoneId('panggung')}
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left"
-                >
-                  <span className="w-3 h-3 rounded-sm bg-yellow-400 shrink-0 border border-yellow-200" />
-                  <span className="truncate">Panggung Acara</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedZoneId('ibu-guru-senior')}
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left"
-                >
-                  <span className="w-3 h-3 rounded-sm bg-[#70c96e] shrink-0 border border-emerald-300" />
-                  <span className="truncate">Guru Senior & Asatidz</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedZoneId('tamu-putri')}
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left"
-                >
-                  <span className="w-3 h-3 rounded-sm bg-[#f8b4bb] shrink-0 border border-pink-300" />
-                  <span className="truncate">Tamu Putri</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedZoneId('tamu-putra')}
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left"
-                >
-                  <span className="w-3 h-3 rounded-sm bg-[#00a6f4] shrink-0 border border-cyan-300" />
-                  <span className="truncate">Tamu Putra</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedZoneId('santri-kiri')}
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left"
-                >
-                  <span className="w-3 h-3 rounded-sm bg-[#fef08a] shrink-0 border border-yellow-200" />
-                  <span className="truncate">Santri KMI Gontor 2</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedZoneId('bazzar-cafe')}
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left"
-                >
-                  <span className="w-3 h-3 rounded-sm bg-white shrink-0 border border-zinc-300" />
-                  <span className="truncate">Bazzar & Merchandise</span>
-                </button>
+                {LEGEND_ITEMS.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setSelectedZoneId(item.id)}
+                    className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors text-left"
+                  >
+                    <span className={`w-3 h-3 rounded-sm shrink-0 border ${item.dotColor}`} />
+                    <span className="truncate">{item.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -785,10 +685,7 @@ export const VenueMapSection: React.FC = () => {
 
       {/* Luxurious Bottom Border */}
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none select-none z-10">
-        {/* Soft Ambient Golden Glow Layer */}
         <div className="absolute -bottom-2 left-1/4 right-1/4 h-4 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent blur-md" />
-        
-        {/* Primary Radiant Hairline Divider */}
         <div className="w-full h-[1.5px] bg-gradient-to-r from-transparent via-amber-400/60 to-transparent shadow-[0_0_12px_rgba(245,158,11,0.4)]" />
       </div>
     </section>

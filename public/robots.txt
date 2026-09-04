@@ -4,4 +4,4 @@ Allow: /
 Disallow: /api/
 
 # Sitemaps
-Sitemap: https://panggung-gembira2.vercel.app/sitemap.xml
+Sitemap: https://imper-g2.my.id/sitemap.xml

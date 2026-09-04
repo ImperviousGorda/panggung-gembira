@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://panggung-gembira2.vercel.app/</loc>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://imper-g2.my.id/</loc>
+    <lastmod>2026-09-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -13,20 +13,20 @@
     </image:image>
   </url>
   <url>
-    <loc>https://panggung-gembira2.vercel.app/#venue-map-section</loc>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://imper-g2.my.id/#venue-map-section</loc>
+    <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://panggung-gembira2.vercel.app/#gallery-section</loc>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://imper-g2.my.id/#gallery-section</loc>
+    <lastmod>2026-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://panggung-gembira2.vercel.app/#reviews-section</loc>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://imper-g2.my.id/#reviews-section</loc>
+    <lastmod>2026-09-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
