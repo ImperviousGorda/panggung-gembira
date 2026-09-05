@@ -876,6 +876,14 @@ export default function App() {
                   name: 'Ngabers Random',
                   logo: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/NGABERS%20RANDOM.png',
                 },
+                {
+                  name: 'Petrokimia Gresik',
+                  logo: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/logo%20petrokimia%20gresik.jpg.webp',
+                },
+                {
+                  name: 'Sixma',
+                  logo: 'https://raw.githubusercontent.com/ImperviousGorda/img-for-web/refs/heads/main/Logo%20Sixma.png',
+                },
               ];
               // Duplicate array so marquee track is filled amply
               const fullSponsors = [...sponsorList, ...sponsorList];
@@ -887,14 +895,15 @@ export default function App() {
                     {fullSponsors.map((sponsor, i) => (
                       <div
                         key={`sponsor-1-${i}`}
-                        className="flex items-center justify-center w-48 h-24 rounded-2xl bg-zinc-950/70 border border-amber-900/30 hover:border-amber-500/50 hover:bg-zinc-900/90 transition-all duration-300 group px-6 py-3 shrink-0 shadow-lg"
+                        title={sponsor.name}
+                        className="relative flex items-center justify-center w-48 h-24 rounded-2xl bg-gradient-to-b from-[#fffdfa] to-[#f4ede1] border-2 border-amber-400/40 hover:border-amber-400 hover:from-white hover:to-[#fcf7ee] transition-all duration-500 ease-out group px-6 py-3 shrink-0 shadow-[0_6px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_30px_rgba(212,175,55,0.32)] hover:-translate-y-1.5 hover:scale-[1.025] cursor-pointer transform-gpu"
                       >
                         <img
                           src={sponsor.logo}
                           alt={sponsor.name}
                           loading="lazy"
                           decoding="async"
-                          className="max-h-14 max-w-[140px] w-auto h-auto object-contain filter drop-shadow brightness-95 group-hover:brightness-110 group-hover:scale-105 transition-all duration-300"
+                          className="max-h-14 max-w-[140px] w-auto h-auto object-contain transition-all duration-500 ease-out group-hover:scale-108 group-hover:brightness-105 transform-gpu will-change-transform"
                           referrerPolicy="no-referrer"
                         />
                       </div>
@@ -906,14 +915,15 @@ export default function App() {
                     {fullSponsors.map((sponsor, i) => (
                       <div
                         key={`sponsor-2-${i}`}
-                        className="flex items-center justify-center w-48 h-24 rounded-2xl bg-zinc-950/70 border border-amber-900/30 hover:border-amber-500/50 hover:bg-zinc-900/90 transition-all duration-300 group px-6 py-3 shrink-0 shadow-lg"
+                        title={sponsor.name}
+                        className="relative flex items-center justify-center w-48 h-24 rounded-2xl bg-gradient-to-b from-[#fffdfa] to-[#f4ede1] border-2 border-amber-400/40 hover:border-amber-400 hover:from-white hover:to-[#fcf7ee] transition-all duration-500 ease-out group px-6 py-3 shrink-0 shadow-[0_6px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_30px_rgba(212,175,55,0.32)] hover:-translate-y-1.5 hover:scale-[1.025] cursor-pointer transform-gpu"
                       >
                         <img
                           src={sponsor.logo}
                           alt={sponsor.name}
                           loading="lazy"
                           decoding="async"
-                          className="max-h-14 max-w-[140px] w-auto h-auto object-contain filter drop-shadow brightness-95 group-hover:brightness-110 group-hover:scale-105 transition-all duration-300"
+                          className="max-h-14 max-w-[140px] w-auto h-auto object-contain transition-all duration-500 ease-out group-hover:scale-108 group-hover:brightness-105 transform-gpu will-change-transform"
                           referrerPolicy="no-referrer"
                         />
                       </div>
